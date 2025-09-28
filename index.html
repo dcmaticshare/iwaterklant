@@ -278,7 +278,7 @@ header .header-inner > .icon-btn:first-of-type{ margin-left:0 }
       <a href="#/pools" data-route="pools">Pools</a>
       <a href="#/alarms" data-route="alarms">Notifications</a>
     </nav>
-    <div style="margin-top:18px; border-top:1px solid rgba(255,255,255,.08); padding-top:12px; font-size:.85rem; opacity:.8">v0.6 mockup</div>
+    <div style="margin-top:18px; border-top:1px solid rgba(255,255,255,.08); padding-top:12px; font-size:.85rem; opacity:.8">v0.7 mockup</div>
   </aside>
 
   <!-- ===== MAIN ===== -->
@@ -286,7 +286,7 @@ header .header-inner > .icon-btn:first-of-type{ margin-left:0 }
 </div>
 
 <script>
-/* =============== DEMO DATA (locations → units → pools; alarms on units) =============== */
+/* =============== DEMO DATA (locations → units → pools; alarms on pools) =============== */
 const Demo = (() => {
   const locs = [
     { id:'loc-001', name:'Groningen, NL', customer:'i‑water', address:'Sportcentrum 12, 9723 Groningen' },
@@ -312,11 +312,11 @@ const Demo = (() => {
   const swver = () => 'v' + rint(1,3) + '.' + rint(0,9) + '.' + rint(0,9);
   const pastDate = (daysAgoMin, daysAgoMax) => new Date(Date.now() - rint(daysAgoMin, daysAgoMax)*24*3600*1000).toISOString();
 
-  const makeAlarm = (unitId, severity) => ({
+  const makePoolAlarm = (poolId, severity) => ({
     id: `AL-${(aid++).toString().padStart(3,'0')}`,
-    unitId,
+    poolId,
     severity,
-    message: severity==='critical' ? 'No data (unit offline)' : pick(['Low free Cl','High EC','pH out of range','Calibration needed']),
+    message: severity==='critical' ? pick(['No data','Sensor error','Out of range']) : pick(['Low free Cl','High EC','pH out of range','Calibration needed']),
     ts: new Date(Date.now() - Math.floor(Math.random()*48)*36e5).toISOString(),
     acknowledged: Math.random()>.55
   });
@@ -327,51 +327,38 @@ const Demo = (() => {
       const statusPool = ['online','online','online','alert','offline'];
       const status = pick(statusPool);
 
-      // --- Pools for this unit (with requested attributes) ---
-      const pools = Array.from({length: 1 + (uix % 3)}, () => ({
-        id:`pool-${(pid++).toString().padStart(3,'0')}`,
-        name: pick(poolNames),
-        metrics:{
-          freeCl: +(rand(0.1,0.8)).toFixed(2),
-          ec: Math.round(rand(25,340)),
-          pH: +(rand(6.7,8.1)).toFixed(2)
-        },
-        volume: +(rand(15,250)).toFixed(1),              // m³
-        surface: rint(20,350),                           // m²
-        waterAttractions: Math.random() > .5,            // yes/no
-        type: pick(poolTypes),
-        infinityMode: pick(infinityModes),               // skimmer/infinity/overflow
-        lastView: new Date(Date.now() - Math.floor(Math.random()*16)*36e5).toISOString()
-      }));
-
-      // --- Alarms on the unit (unchanged) ---
-      const alarms = [];
-      if(status!=='online' || Math.random()>.7){
-        const cnt = 1 + Math.floor(Math.random()*2);
-        for(let i=0;i<cnt;i++){
-          alarms.push({
-            id: `AL-${(aid++).toString().padStart(3,'0')}`,
-            unitId: `U-${uid.toString().padStart(3,'0')}`,
-            severity: (status==='offline' || Math.random()>.6) ? 'critical' : 'warning',
-            message: pick([
-              'No data (unit offline)',
-              'Low free Cl',
-              'High EC',
-              'pH out of range',
-              'Calibration needed'
-            ]),
-            ts: new Date(Date.now() - (i+1) * (2+Math.random()*48) * 36e5).toISOString(),
-            acknowledged: Math.random()>.55
-          });
+      // --- Pools for this unit (with requested attributes & pool-level alarms) ---
+      const pools = Array.from({length: 1 + (uix % 3)}, () => {
+        const id = `pool-${(pid++).toString().padStart(3,'0')}`;
+        const pool = {
+          id,
+          name: pick(poolNames),
+          metrics:{
+            freeCl: +(rand(0.1,0.8)).toFixed(2),
+            ec: Math.round(rand(25,340)),
+            pH: +(rand(6.7,8.1)).toFixed(2)
+          },
+          volume: +(rand(15,250)).toFixed(1),              // m³
+          surface: rint(20,350),                           // m²
+          waterAttractions: Math.random() > .5,            // yes/no
+          type: pick(poolTypes),
+          infinityMode: pick(infinityModes),               // skimmer/infinity/overflow
+          lastView: new Date(Date.now() - Math.floor(Math.random()*16)*36e5).toISOString(),
+          alarms: []
+        };
+        // ~35% pools get 1-2 alarms
+        if(Math.random()>.65){
+          const count = 1 + rint(0,1);
+          for(let i=0;i<count;i++){
+            pool.alarms.push(makePoolAlarm(id, Math.random()>.55 ? 'critical' : 'warning'));
+          }
+          // occasionally ensure mixed severities
+          if(!pool.alarms.some(a=>a.severity==='critical') && Math.random()>.5){
+            pool.alarms.push(makePoolAlarm(id, 'critical'));
+          }
         }
-        const hasCrit = alarms.some(a=>a.severity==='critical');
-        const hasWarn = alarms.some(a=>a.severity==='warning');
-        if(Math.random()>.5 && (!hasCrit || !hasWarn)){
-          const unitIdStr = `U-${uid.toString().padStart(3,'0')}`;
-          if(!hasCrit) alarms.push(makeAlarm(unitIdStr, 'critical'));
-          if(!hasWarn) alarms.push(makeAlarm(unitIdStr, 'warning'));
-        }
-      }
+        return pool;
+      });
 
       // --- Unit extended attributes (requested) ---
       const firstPoweredOn = pastDate(400, 1200);  // 1.1–3.3y ago
@@ -382,27 +369,17 @@ const Demo = (() => {
         status,
         lastSeen: new Date(Date.now() - Math.floor(Math.random()*12)*36e5).toISOString(),
         pools,
-        alarms,
+        // Unit alarms are no longer used for notifications; keeping empty for clarity
+        alarms: [],
         serialNumber: serial(),
         softwareVersion: swver(),
         firstPoweredOn,
-        usageCounter: rint(200, 12000), // arbitrary usage counter
+        usageCounter: rint(200, 12000),
         installationDate,
         registrationCode: code('REG'),
         installerRegistrationCode: code('INST')
       };
     });
-
-    // Guarantee a mix across units for demo richness
-    const locHasCrit = units.some(u=>u.alarms.some(a=>a.severity==='critical'));
-    const locHasWarn = units.some(u=>u.alarms.some(a=>a.severity==='warning'));
-    if(!locHasCrit || !locHasWarn){
-      const target = units[0];
-      if(target){
-        if(!locHasCrit) target.alarms.push(makeAlarm(target.id, 'critical'));
-        if(!locHasWarn) target.alarms.push(makeAlarm(target.id, 'warning'));
-      }
-    }
 
     return { ...L, units };
   });
@@ -460,7 +437,20 @@ const Data = {
   allLocations(){ return db.locations },
   allUnits(){ return db.locations.flatMap(L => L.units.map(U => ({...U, locationId:L.id, locationName:L.name, customer:L.customer, address:L.address}))); },
   allPools(){ return db.locations.flatMap(L => L.units.flatMap(U => U.pools.map(P => ({...P, unitId:U.id, unitName:U.name, unitStatus:U.status, locationId:L.id, locationName:L.name, customer:L.customer, address:L.address})))); },
-  allAlarms(){ return db.locations.flatMap(L => L.units.flatMap(U => U.alarms.map(A => ({...A, locationName:L.name, customer:L.customer, unitName:U.name})))); }
+  allPoolAlarms(){
+    return db.locations.flatMap(L =>
+      L.units.flatMap(U =>
+        U.pools.flatMap(P =>
+          (P.alarms||[]).map(A => ({
+            ...A,
+            poolId:P.id, poolName:P.name,
+            unitId:U.id, unitName:U.name,
+            locationName:L.name, customer:L.customer
+          }))
+        )
+      )
+    );
+  }
 };
 
 /* =============== HELPERS =============== */
@@ -477,7 +467,6 @@ function paramTiles(metrics){
   return tiles.filter(Boolean);
 }
 function countByStatus(units){ const tally = {online:0, alert:0, offline:0}; units.forEach(u=>tally[u.status]++); return tally; }
-const isRiskUnit = u => (!!u && (u.status!=='online' || (u.alarms?.length||0)>0));
 
 /* =============== ROUTER =============== */
 const Router = {
@@ -509,33 +498,32 @@ const Views = {
     const locations = Data.allLocations();
     const units = Data.allUnits();
     const poolsAll = Data.allPools();
-    const alarms = Data.allAlarms();
+    const poolAlarms = Data.allPoolAlarms();
 
     // Totals for cards
     const totalUnits = units.length;
     const totalLocations = locations.length;
     const customers = new Set(locations.map(l=>l.customer)).size;
 
-    const riskyUnits = units.filter(isRiskUnit);
-    const riskyLocations = new Set(riskyUnits.map(u=>u.locationId)).size;
-    const crit = alarms.filter(a=>a.severity==='critical').length;
-    const warn = alarms.filter(a=>a.severity==='warning').length;
+    // Notifications (pool level)
+    const poolsWithNotifs = new Set(poolAlarms.map(a=>a.poolId)).size;
+    const riskyLocations = new Set(poolAlarms.map(a=>a.locationName)).size;
+    const crit = poolAlarms.filter(a=>a.severity==='critical').length;
+    const warn = poolAlarms.filter(a=>a.severity==='warning').length;
 
     const onlineUnits = units.filter(u=>u.status==='online').length;
     const onlineLocations = new Set(units.filter(u=>u.status==='online').map(u=>u.locationId)).size;
     const offlineUnits = units.filter(u=>u.status==='offline').length;
     const offlineLocations = new Set(units.filter(u=>u.status==='offline').map(u=>u.locationId)).size;
 
-    const unitById = new Map(units.map(u=>[u.id,u]));
-
     // Filter pools according to active KPI card
     let poolRows = poolsAll;
     if(UI.dashFilter==='risky'){
-      poolRows = poolsAll.filter(p => isRiskUnit(unitById.get(p.unitId)));
+      poolRows = poolsAll.filter(p => (p.alarms?.length||0) > 0);
     }else if(UI.dashFilter==='online'){
-      poolRows = poolsAll.filter(p => unitById.get(p.unitId)?.status === 'online');
+      poolRows = poolsAll.filter(p => p.unitStatus === 'online');
     }else if(UI.dashFilter==='offline'){
-      poolRows = poolsAll.filter(p => unitById.get(p.unitId)?.status === 'offline');
+      poolRows = poolsAll.filter(p => p.unitStatus === 'offline');
     }
     // Search filter
     const qMatch = (p) => (`${p.name} ${p.locationName} ${p.customer} ${p.unitName}`).toLowerCase().includes(q);
@@ -547,7 +535,7 @@ const Views = {
     el.innerHTML = `
       <div class="toolbar column">
         <h1 data-accent>Dashboard</h1>
-        <div class="help">Click a card to filter the <strong>pools</strong> list.</div>
+        <div class="help">Click a card to filter the <strong>pools</strong> list. Click any pool row to open its detail.</div>
       </div>
 
       <section class="kpis">
@@ -560,8 +548,8 @@ const Views = {
 
         <div class="kpi clickable ${isActive('risky')}" data-filter="risky" tabindex="0" role="button" aria-pressed="${UI.dashFilter==='risky'}">
           <h3><span class="icon-badge" style="color:#8a2222">${Icons.alert}</span> Notifications</h3>
-          <div class="kpi-row"><span>Locations</span><span class="kpi-num">${riskyLocations}</span></div>
-          <div class="kpi-row"><span>Alarms</span><span class="kpi-num">${crit}</span></div>
+          <div class="kpi-row"><span>Pools with notifications</span><span class="kpi-num">${poolsWithNotifs}</span></div>
+          <div class="kpi-row"><span>Critical</span><span class="kpi-num">${crit}</span></div>
           <div class="kpi-row"><span>Warnings</span><span class="kpi-num">${warn}</span></div>
         </div>
 
@@ -583,10 +571,11 @@ const Views = {
           <h2 data-accent style="--blob-w:.9em; --blob-h:1.3em">Pools</h2>
           <div class="help">Filter: <strong>${filterName}</strong> · Results: <strong>${poolRows.length}</strong> pools</div>
         </div>
-        ${Views.riskList(poolRows, { offline: UI.dashFilter==='offline' })}
+        ${Views.poolList(poolRows, { offline: UI.dashFilter==='offline' })}
       </section>
     `;
 
+    Views._bindKpiClicks();
     Views._bindRowClicks();
   },
 
@@ -639,8 +628,10 @@ const Views = {
       .filter(u => (`${u.id} ${u.name} ${u.locationName} ${u.customer}`).toLowerCase().includes(q));
 
     const rows = units.map(u => {
-      const crit = u.alarms.filter(a=>a.severity==='critical').length;
-      const warn = u.alarms.filter(a=>a.severity==='warning').length;
+      // Aggregate pool-level notifications for the unit
+      const allPoolNotifs = (u.pools||[]).flatMap(p => p.alarms||[]);
+      const crit = allPoolNotifs.filter(a=>a.severity==='critical').length;
+      const warn = allPoolNotifs.filter(a=>a.severity==='warning').length;
       const poolsN = u.pools.length;
       return `
         <tr class="risk-row" data-unit="${u.id}">
@@ -665,7 +656,7 @@ const Views = {
       </div>
       <div class="table-scroll">
         <table class="list">
-          <thead><tr><th>Unit</th><th>Location</th><th>Status</th><th>Pools</th><th>Alarms</th><th>Last seen</th></tr></thead>
+          <thead><tr><th>Unit</th><th>Location</th><th>Status</th><th>Pools</th><th>Notifications</th><th>Last seen</th></tr></thead>
           <tbody>${rows}</tbody>
         </table>
       </div>
@@ -680,9 +671,8 @@ const Views = {
       .filter(p => (`${p.name} ${p.locationName} ${p.customer} ${p.unitName}`).toLowerCase().includes(q))
       .map(p => {
         const tiles = paramTiles(p.metrics);
-        const unit = Data.allUnits().find(u=>u.id===p.unitId) || {};
-        const crit = (unit.alarms||[]).filter(a=>a.severity==='critical').length;
-        const warn = (unit.alarms||[]).filter(a=>a.severity==='warning').length;
+        const crit = (p.alarms||[]).filter(a=>a.severity==='critical').length;
+        const warn = (p.alarms||[]).filter(a=>a.severity==='warning').length;
         return `
           <tr class="risk-row" data-pool="${p.id}">
             <td><strong>${p.locationName}</strong></td>
@@ -702,7 +692,7 @@ const Views = {
     el.innerHTML = `
       <div class="toolbar">
         <h1 data-accent>Pools</h1>
-        <div class="help">All pools with parameters.</div>
+        <div class="help">All pools with parameters and notifications.</div>
       </div>
       <div class="table-scroll">
         <table class="list risk-list" aria-label="Notifications overview">
@@ -723,13 +713,13 @@ const Views = {
     Views._bindRowClicks();
   },
 
-  /* ----- NOTIFICATIONS OVERVIEW ----- */
+  /* ----- NOTIFICATIONS OVERVIEW (pool level) ----- */
   alarms(el){
-    const all = Data.allAlarms().sort((a,b)=> new Date(b.ts)-new Date(a.ts));
+    const all = Data.allPoolAlarms().sort((a,b)=> new Date(b.ts)-new Date(a.ts));
     el.innerHTML = `
       <div class="toolbar">
         <h1 data-accent>Notifications</h1>
-        <div class="help">Overview of all alarms across units.</div>
+        <div class="help">Pool-level notifications across all locations.</div>
       </div>
       ${Views.tableAlarms(all,true)}
     `;
@@ -743,14 +733,29 @@ const Views = {
 
     const pools = U.pools.map(p => {
       const tiles = paramTiles(p.metrics);
+      const crit = (p.alarms||[]).filter(a=>a.severity==='critical').length;
+      const warn = (p.alarms||[]).filter(a=>a.severity==='warning').length;
       return `
         <tr class="risk-row" data-pool="${p.id}">
           <td><strong>${p.name}</strong></td>
           <td><div class="param-badges">${tiles.length? tiles.join('') : '<span class="muted">OK</span>'}</div></td>
+          <td>
+            ${crit ? `<span class="chip danger">${Icons.bell} ${crit}</span>` : ''}
+            ${warn ? `<span class="chip warn">${Icons.bell} ${warn}</span>` : ''}
+            ${(!crit && !warn) ? '<span class="muted">0</span>' : ''}
+          </td>
           <td>${fmt.rel(p.lastView)}</td>
         </tr>
       `;
     }).join('');
+
+    // Collect all pool notifications for this unit
+    const unitPoolAlarms = (U.pools||[]).flatMap(p => (p.alarms||[]).map(a => ({
+      ...a,
+      poolId:p.id, poolName:p.name,
+      unitId:U.id, unitName:U.name,
+      locationName:L.name, customer:L.customer
+    }))).sort((a,b)=> new Date(b.ts)-new Date(a.ts));
 
     el.innerHTML = `
       <div class="toolbar">
@@ -787,7 +792,7 @@ const Views = {
           <div class="title">Pools</div>
           <div class="table-scroll" style="margin-top:10px">
             <table class="list">
-              <thead><tr><th>Pool</th><th>Parameters</th><th>Latest view</th></tr></thead>
+              <thead><tr><th>Pool</th><th>Parameters</th><th>Notifications</th><th>Latest view</th></tr></thead>
               <tbody>${pools}</tbody>
             </table>
           </div>
@@ -795,20 +800,26 @@ const Views = {
         </div>
 
         <div class="card">
-          <div class="title">Alarms</div>
-          ${U.alarms.length ? Views.tableAlarms(U.alarms) : '<p class="muted">No alarms for this unit.</p>'}
+          <div class="title">Notifications (all pools)</div>
+          ${unitPoolAlarms.length ? Views.tableAlarms(unitPoolAlarms) : '<p class="muted">No notifications for this unit\'s pools.</p>'}
         </div>
       </div>
     `;
     Views._bindRowClicks();
   },
 
-  /* ----- POOL DETAIL (NEW) ----- */
+  /* ----- POOL DETAIL ----- */
   poolDetail(el, poolId){
     const P = Data.allPools().find(p => p.id === poolId);
     if(!P){ el.innerHTML = '<p>Pool not found.</p>'; return; }
     const U = Data.allUnits().find(u => u.id === P.unitId) || {};
     const tiles = paramTiles(P.metrics);
+    const poolNotifs = (P.alarms||[]).map(a => ({
+      ...a,
+      poolId:P.id, poolName:P.name,
+      unitId:U.id, unitName:U.name,
+      locationName:P.locationName, customer:P.customer
+    })).sort((a,b)=> new Date(b.ts)-new Date(a.ts));
 
     el.innerHTML = `
       <div class="toolbar">
@@ -851,19 +862,23 @@ const Views = {
             ${tiles.length ? tiles.join('') : '<span class="muted">All parameters within range.</span>'}
           </div>
         </div>
+
+        <div class="card">
+          <div class="title">Notifications</div>
+          ${poolNotifs.length ? Views.tableAlarms(poolNotifs) : '<p class="muted">No notifications for this pool.</p>'}
+        </div>
       </div>
     `;
   },
 
   /* ----- PARTIALS ----- */
-  riskList(poolRows, opts = {}){
+  poolList(poolRows, opts = {}){
     const showOfflineCol = !!opts.offline;
     if(!poolRows.length) return '<p class="muted">No notifications found.</p>';
     const rows = poolRows.map(p=>{
-      const unit = Data.allUnits().find(u=>u.id===p.unitId) || {};
-      const crit = (unit.alarms||[]).filter(a=>a.severity==='critical').length;
-      const warn = (unit.alarms||[]).filter(a=>a.severity==='warning').length;
       const tiles = paramTiles(p.metrics);
+      const crit = (p.alarms||[]).filter(a=>a.severity==='critical').length;
+      const warn = (p.alarms||[]).filter(a=>a.severity==='warning').length;
       return `
         <tr class="risk-row" data-pool="${p.id}">
           <td><strong>${p.locationName}</strong></td>
@@ -875,7 +890,7 @@ const Views = {
             ${(!crit && !warn) ? '<span class="muted">0</span>' : ''}
           </td>
           <td><div class="param-badges">${tiles.length ? tiles.join('') : '<span class="muted">OK</span>'}</div></td>
-          ${showOfflineCol ? `<td>${unit?.lastSeen ? fmt.date(unit.lastSeen) : '-'}</td>` : ''}
+          ${showOfflineCol ? `<td>${p?.unitStatus==='offline' ? (Data.allUnits().find(u=>u.id===p.unitId)?.lastSeen ? fmt.date(Data.allUnits().find(u=>u.id===p.unitId).lastSeen) : '-') : '-'}</td>` : ''}
           <td>${fmt.rel(p.lastView)}</td>
         </tr>
       `;
@@ -901,7 +916,7 @@ const Views = {
   },
 
   tableAlarms(list, actionable=false){
-    if(!list.length) return '<p class="muted">No alarms.</p>';
+    if(!list.length) return '<p class="muted">No notifications.</p>';
     const rows = list
       .sort((a,b)=> new Date(b.ts)-new Date(a.ts))
       .map(a => `
@@ -910,6 +925,7 @@ const Views = {
           <td>${fmt.sevChip(a.severity)}</td>
           <td>${a.locationName || ''}</td>
           <td>${a.unitName || ''}</td>
+          <td>${a.poolName || ''}</td>
           <td>${fmt.rel(a.ts)}</td>
           <td>${a.acknowledged?'<span class="chip success">Acknowledged</span>':'<span class="chip warn">Open</span>'}</td>
           ${actionable ? `<td class="row-actions"><button class="btn secondary" onclick="Views._toggleAck('${a.id}')">${a.acknowledged?'Undo':'Acknowledge'}</button></td>`:''}
@@ -918,7 +934,7 @@ const Views = {
     return `
       <div class="table-scroll">
         <table class="list">
-          <thead><tr><th>Alarm</th><th>Severity</th><th>Location</th><th>Unit</th><th>When</th><th>Status</th>${actionable?'<th></th>':''}</tr></thead>
+          <thead><tr><th>ID</th><th>Severity</th><th>Location</th><th>Unit</th><th>Pool</th><th>When</th><th>Status</th>${actionable?'<th></th>':''}</tr></thead>
           <tbody>${rows}</tbody>
         </table>
       </div>
@@ -928,8 +944,10 @@ const Views = {
   _toggleAck(id){
     for(const L of db.locations){
       for(const U of L.units){
-        const a = U.alarms.find(x=>x.id===id);
-        if(a){ a.acknowledged = !a.acknowledged; State.save(db); Router.go('#/alarms'); return; }
+        for(const P of U.pools){
+          const a = (P.alarms||[]).find(x=>x.id===id);
+          if(a){ a.acknowledged = !a.acknowledged; State.save(db); Router.go('#/alarms'); return; }
+        }
       }
     }
   },
@@ -937,6 +955,19 @@ const Views = {
   _filterUnitsByLocation(locId){
     const L = db.locations.find(x=>x.id===locId);
     Router.routes['/units'](document.getElementById('view'), { locationId: locId, locationName: L?.name });
+  },
+
+  _bindKpiClicks(){
+    document.querySelectorAll('.kpi.clickable').forEach(k=>{
+      const setFilter = ()=>{
+        UI.dashFilter = k.dataset.filter;
+        Views.dashboard(document.getElementById('view'));
+      };
+      k.addEventListener('click', setFilter);
+      k.addEventListener('keydown', e=>{
+        if(e.key==='Enter' || e.key===' '){ e.preventDefault(); setFilter(); }
+      });
+    });
   },
 
   _bindRowClicks(){
@@ -954,45 +985,6 @@ const Views = {
     });
   }
 };
-
-/* =============== (Optional) REFRESH SIMULATION — guarded (button removed) =============== */
-const refreshBtn = document.getElementById('refreshBtn');
-if (refreshBtn){
-  refreshBtn.addEventListener('click', ()=>{
-    db.locations.forEach(L=>{
-      L.units.forEach(U=>{
-        const r = Math.random();
-        const newStatus = r>.85? 'offline' : r>.65? 'alert' : 'online';
-        U.status = newStatus;
-
-        if(newStatus !== 'offline'){
-          U.lastSeen = new Date().toISOString();
-        }
-
-        if(U.status!=='online' && Math.random()>.5){
-          U.alarms.push({
-            id:`AL-${Math.floor(Math.random()*999).toString().padStart(3,'0')}`,
-            unitId:U.id, severity: U.status==='offline' ? 'critical' : 'warning',
-            message: U.status==='offline' ? 'No data (unit offline)' : pick(['Low free Cl','High EC','pH out of range']),
-            ts:new Date().toISOString(), acknowledged:false
-          });
-        }
-
-        U.pools.forEach(P=>{
-          if(U.status !== 'offline'){
-            P.metrics.freeCl = +(Math.max(.1, Math.min(.9, P.metrics.freeCl + (Math.random()-.5)*.1))).toFixed(2);
-            P.metrics.ec = Math.max(20, Math.min(360, Math.round(P.metrics.ec + (Math.random()-.5)*30)));
-            P.metrics.pH = +(Math.max(6.6, Math.min(8.2, P.metrics.pH + (Math.random()-.5)*.2))).toFixed(2);
-            P.lastView = new Date().toISOString();
-          }
-        });
-      });
-    });
-    State.save(db);
-    Views.dashboard(document.getElementById('view'));
-  });
-}
-function pick(a){ return a[Math.floor(Math.random()*a.length)] }
 
 /* =============== SEARCH WIRING =============== */
 document.getElementById('globalSearch').addEventListener('input', ()=>{
