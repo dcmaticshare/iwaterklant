@@ -1,305 +1,228 @@
 <!doctype html>
-<html lang="nl">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>i‑Water – Klant Mockup (NL)</title>
+<title>i‑Water – Admin Mockup (EN)</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
-  /* ===== THEME (same as admin) ===== */
-  :root{
-    --primary:#BAE6F3;           /* brand blue */
-    --primary-strong:#95D5EB;    /* slightly darker for hover/gradient */
-    --primary-ink:#0a2540;
+/* ===== THEME ===== */
+:root{
+  --primary:#BAE6F3;
+  --primary-strong:#95D5EB;
+  --primary-ink:#0a2540;
 
-    --bg-0:#f7fbff;
-    --bg-1:#ffffff;
-    --line:#e8eef7;
+  --bg-0:#f7fbff;
+  --bg-1:#ffffff;
+  --line:#e8eef7;
 
-    --text-900:#0a2540;
-    --text-700:#2a3e59;
-    --text-500:#5c7192;
+  --text-900:#0a2540;
+  --text-700:#2a3e59;
+  --text-500:#5c7192;
 
-    --success:#22c55e;
-    --warning:#f59e0b;
-    --danger:#ef4444;
+  --success:#22c55e;
+  --warning:#f59e0b;
+  --danger:#ef4444;
 
-    --radius-xl:16px;
-    --radius-lg:12px;
-    --radius-md:10px;
-    --shadow:0 10px 24px rgba(9, 30, 66, .08);
+  --radius-xl:16px;
+  --radius-lg:12px;
+  --radius-md:10px;
+  --shadow:0 10px 24px rgba(9, 30, 66, .08);
 
-    --sidebar-w:260px;
-    --header-h:64px;
+  --sidebar-w:260px;
+  --header-h:64px;
 
-    --container:1400px;
-    --gutter:24px;
-    --sidebar-blue-dark:#05265a;
-  }
+  --container:1400px;
+  --gutter:24px;
+  --sidebar-blue-dark:#05265a;
+}
 
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0;
-    font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
-    color:var(--text-700);
-    background:
-      radial-gradient(1200px 600px at 100% -50%, rgba(186,230,243,.20), transparent 60%),
-      radial-gradient(800px 400px at -10% 0%, rgba(186,230,243,.25), transparent 65%),
-      var(--bg-0);
-  }
+*{box-sizing:border-box}
+html,body{height:100%}
+/* Page stays fixed width; only tables may scroll horizontally */
+html,body{max-width:100%; overflow-x:hidden}
+@supports (overflow-x: clip){ html,body{overflow-x:clip} }
 
-  /* ===== LAYOUT ===== */
-  .app{min-height:100vh; display:grid; grid-template-rows:var(--header-h) auto 1fr}
-  .container{max-width:var(--container); margin:0 auto; padding:0 var(--gutter)}
+body{
+  margin:0;
+  font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+  color:var(--text-700);
+  background:
+    radial-gradient(1200px 600px at 100% -50%, rgba(186,230,243,.20), transparent 60%),
+    radial-gradient(800px 400px at -10% 0%, rgba(186,230,243,.25), transparent 65%),
+    var(--bg-0);
+}
 
-  /* Header */
-  header{
-    position:sticky; top:0; z-index:100;
-    background:#fff; color:var(--text-900); border-bottom:1px solid var(--line);
-  }
-  .header-inner{height:var(--header-h); display:flex; align-items:center; gap:12px}
-  .brand{display:flex; align-items:center; gap:10px}
-  .brand img{height:28px}
+/* ===== LAYOUT ===== */
+.app{min-height:100vh; display:grid; grid-template-rows:var(--header-h) auto 1fr; min-width:0}
+.container{max-width:var(--container); margin:0 auto; padding:0 var(--gutter); min-width:0}
+@media (max-width:480px){ :root{ --gutter:14px } }
 
-  .nav-toggle{
-    width:36px; height:36px; border-radius:999px;
-    border:1px solid #e6eef8; background:#f6fbff; color:var(--text-900);
-    display:none; place-items:center; cursor:pointer;
-  }
-  .search{
-    display:flex; align-items:center; gap:8px; margin-left:8px; flex:1;
-    background:#f6fbff; border:1px solid #e6eef8; border-radius:999px; padding:8px 12px;
-  }
-  .search input{background:transparent; border:0; outline:0; color:var(--text-900); width:100%}
-  .search input::placeholder{color:#6f87a6}
-  .icon-btn{
-    display:inline-grid; place-items:center; width:36px; height:36px; border-radius:999px;
-    border:1px solid #e6eef8; background:#f6fbff; color:var(--text-900); cursor:pointer;
-  }
+/* Header */
+header{position:sticky; top:0; z-index:100; background:#fff; color:var(--text-900); border-bottom:1px solid var(--line)}
+.header-inner{height:var(--header-h); display:flex; align-items:center; gap:12px; flex-wrap:wrap; min-width:0}
+.brand{display:flex; align-items:center; gap:10px}
+.brand img{height:50px; max-width:100%}
+.nav-toggle{display:none; width:36px; height:36px; border-radius:999px; border:1px solid #e6eef8; background:#f6fbff; color:var(--text-900); place-items:center; cursor:pointer}
+.search{display:flex; align-items:center; gap:8px; margin-left:8px; flex:1; background:#f6fbff; border:1px solid #e6eef8; border-radius:999px; padding:8px 12px; min-width:180px}
+.search input{background:transparent; border:0; outline:0; color:var(--text-900); width:100%}
+.search input::placeholder{color:#6f87a6}
+.icon-btn{display:inline-grid; place-items:center; width:36px; height:36px; border-radius:999px; border:1px solid #e6eef8; background:#f6fbff; color:var(--text-900); cursor:pointer}
 
-  /* Tabs */
-  .tabs-wrap{
-    position:sticky; top:var(--header-h); z-index:95;
-    background:var(--primary);
-    border-bottom:1px solid #a8d7ea;
-  }
-  .tabs{
-    height:52px; display:flex; align-items:center; gap:8px; overflow:auto; scrollbar-width:none;
-  }
-  .tabs::-webkit-scrollbar{display:none}
-  .tabs a{
-    text-decoration:none; color:var(--primary-ink); font-weight:600;
-    padding:10px 14px; border-radius:999px; border:1px solid transparent; white-space:nowrap;
-  }
-  .tabs a:hover{background:rgba(255,255,255,.7)}
-  .tabs a.active{
-    background:#fff; border-color:#a8d7ea; box-shadow:0 4px 10px rgba(13, 75, 171, .08);
-  }
-  @media (min-width:1101px){
-    .tabs{justify-content:center;}
-  }
+/* Tabs */
+.tabs-wrap{position:sticky; top:var(--header-h); z-index:95; background:var(--primary); border-bottom:1px solid #a8d7ea}
+.tabs{height:52px; display:flex; align-items:center; gap:8px; overflow:auto; scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{text-decoration:none; color:var(--primary-ink); font-weight:600; padding:10px 14px; border-radius:999px; border:1px solid transparent; white-space:nowrap}
+.tabs a:hover{background:rgba(255,255,255,.7)}
+.tabs a.active{background:#fff; border-color:#a8d7ea; box-shadow:0 4px 10px rgba(13,75,171,.08)}
+@media (min-width:1101px){ .tabs{justify-content:center} }
 
-  /* Sidebar (tablet & mobile) */
-  aside.sidebar{
-    display:none; position:fixed; left:0; top:var(--header-h); bottom:0; width:var(--sidebar-w);
-    background:linear-gradient(180deg, #05265a, #07306d);
-    color:#c9d6ff; border-right:1px solid rgba(255,255,255,.06); z-index:96;
-    padding:14px 12px; overflow:auto;
-  }
-  .side-links{margin-top:6px; display:flex; flex-direction:column; gap:4px}
-  .side-links a{
-    color:#cfe0ff; text-decoration:none; font-weight:500;
-    padding:10px 12px; border-radius:10px; display:flex; align-items:center; gap:10px;
-  }
-  .side-links a:hover{background:rgba(255,255,255,.06)}
-  .side-links a.active{background:linear-gradient(90deg,rgba(186,230,243,.35),rgba(255,255,255,.10)); color:#fff}
+/* Sidebar (mobile/tablet) */
+aside.sidebar{display:none; position:fixed; left:0; top:var(--header-h); bottom:0; width:var(--sidebar-w); background:linear-gradient(180deg,#05265a,#07306d); color:#c9d6ff; border-right:1px solid rgba(255,255,255,.06); z-index:96; padding:14px 12px; overflow:auto}
+.side-links{margin-top:6px; display:flex; flex-direction:column; gap:4px}
+.side-links a{color:#cfe0ff; text-decoration:none; font-weight:500; padding:10px 12px; border-radius:10px; display:flex; align-items:center; gap:10px}
+.side-links a:hover{background:rgba(255,255,255,.06)}
+.side-links a.active{background:linear-gradient(90deg,rgba(186,230,243,.35),rgba(255,255,255,.10)); color:#fff}
 
-  /* Main */
-  main{padding:22px 0}
-  .toolbar{display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin-bottom:16px}
-  .help{font-size:.9rem; color:var(--text-500)}
-  h1, h2{margin:0; color:var(--text-900); line-height:1.15}
+/* Main */
+main{padding:22px 0; min-width:0}
+.toolbar{display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin-bottom:16px; min-width:0}
+.toolbar.column{flex-direction:column; align-items:flex-start; gap:6px}
+.help{font-size:.9rem; color:var(--text-500)}
+h1,h2{margin:0; color:var(--text-900); line-height:1.15}
 
-  /* === First-letter brand blob === */
-  h1[data-accent],
-  h2[data-accent]{
-    position: relative;
-    display: inline-block;
-    padding: .12em 0;
-    --blob-w:  .90em;
-    --blob-h:  1.58em;
-    --blob-x: -.26em;
-    --blob-rot: -12deg;
-  }
-  h1[data-accent]::before,
-  h2[data-accent]::before{
-    content: "";
-    position: absolute;
-    z-index: -1;
-    left: var(--blob-x);
-    top: 50%;
-    width: var(--blob-w);
-    height: var(--blob-h);
-    transform: translateY(-50%) rotate(var(--blob-rot));
-    background: var(--primary);
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 140'%3E%3Cpath fill='black' d='M59 3c15 6 27 27 28 53 1 32-19 63-43 70C22 133 6 117 4 91 2 61 13 29 36 12 45 5 52 1 59 3z'/%3E%3C/svg%3E");
-    -webkit-mask-size: 100% 100%;
-    -webkit-mask-repeat: no-repeat;
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 140'%3E%3Cpath fill='black' d='M59 3c15 6 27 27 28 53 1 32-19 63-43 70C22 133 6 117 4 91 2 61 13 29 36 12 45 5 52 1 59 3z'/%3E%3C/svg%3E");
-    mask-size: 100% 100%;
-    mask-repeat: no-repeat;
-    opacity: .9;
-    pointer-events: none;
-  }
-  h1[data-accent]{ --blob-h:1.64em; --blob-x:-.28em; --blob-rot:-12deg; }
-  h2[data-accent]{ --blob-h:1.54em; --blob-x:-.24em; --blob-rot:-11deg; }
-  @supports not (mask-image: url("")) {
-    h1[data-accent]::before,
-    h2[data-accent]::before{ border-radius: 65% 45% 58% 55% / 75% 55% 50% 45%; }
-  }
-  h1[data-accent], h2[data-accent]{ --blob-rot: 15deg; --blob-x: -.30em; }
-  h1[data-accent]::before, h2[data-accent]::before{
-    transform-origin: 42% 78%;
-    transform: translateY(-50%) rotate(var(--blob-rot));
-  }
+/* i‑Water title blob */
+h1[data-accent], h2[data-accent]{ position:relative; display:inline-block; padding:.12em 0; --blob-w:.90em; --blob-h:1.58em; --blob-x:-.26em; --blob-rot:-12deg }
+h1[data-accent]::before, h2[data-accent]::before{
+  content:""; position:absolute; z-index:-1; left:var(--blob-x); top:50%; width:var(--blob-w); height:var(--blob-h);
+  transform:translateY(-50%) rotate(var(--blob-rot)); background:var(--primary);
+  -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 140'%3E%3Cpath fill='black' d='M59 3c15 6 27 27 28 53 1 32-19 63-43 70C22 133 6 117 4 91 2 61 13 29 36 12 45 5 52 1 59 3z'/%3E%3C/svg%3E");
+  -webkit-mask-size:100% 100%; -webkit-mask-repeat:no-repeat; mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 140'%3E%3Cpath fill='black' d='M59 3c15 6 27 27 28 53 1 32-19 63-43 70C22 133 6 117 4 91 2 61 13 29 36 12 45 5 52 1 59 3z'/%3E%3C/svg%3E");
+  mask-size:100% 100%; mask-repeat:no-repeat; opacity:.9; pointer-events:none;
+}
+h1[data-accent]{ --blob-h:1.64em; --blob-x:-.28em }
+h2[data-accent]{ --blob-h:1.54em; --blob-x:-.24em }
 
-  /* Buttons */
-  .btn{
-    background:linear-gradient(180deg, var(--primary-strong), var(--primary));
-    color:var(--primary-ink); font-weight:600; border:1px solid #a8d7ea;
-    padding:10px 14px; border-radius:10px; cursor:pointer;
-    box-shadow:0 6px 14px rgba(16, 149, 189, .15);
-  }
-  .btn.secondary{background:#f0f9ff; color:var(--primary-ink)}
-  .btn.ghost{background:transparent; color:var(--primary-ink); border:1px solid #a8d7ea}
+/* Buttons */
+.btn{background:linear-gradient(180deg,var(--primary-strong),var(--primary)); color:var(--primary-ink); font-weight:600; border:1px solid #a8d7ea; padding:10px 14px; border-radius:10px; cursor:pointer; box-shadow:0 6px 14px rgba(16,149,189,.15)}
+.btn.secondary{background:#f0f9ff}
+.btn.ghost{background:transparent; color:var(--primary-ink); border:1px solid #a8d7ea}
 
-  /* KPIs & Cards */
-  .kpis{display:grid; grid-template-columns:repeat(4, minmax(200px,1fr)); gap:16px; margin-bottom:18px}
-  .kpi{
-    background:var(--bg-1); border-radius:var(--radius-xl); box-shadow:var(--shadow);
-    padding:16px 18px; border:1px solid var(--line);
-  }
-  .kpi h3{margin:0; font-size:.95rem; font-weight:600; color:var(--text-500)}
-  .kpi strong{font-size:1.9rem; color:var(--text-900); display:block; margin-top:6px}
-  .kpi-top{display:flex; align-items:center; justify-content:space-between; gap:10px}
-  .kpi-icon{
-    width:32px; height:32px; min-width:32px; display:grid; place-items:center;
-    border-radius:10px; background:#f0f8ff; border:1px solid #d8ecf7; color:#0b4bab;
-  }
-  .kpi-icon svg{width:18px; height:18px; display:block}
-  .kpi.clickable{cursor:pointer; user-select:none; transition:transform .05s ease, box-shadow .05s ease, border-color .05s ease}
-  .kpi.clickable:hover{transform:translateY(-1px); box-shadow:0 12px 24px rgba(16,149,189,.12)}
-  .kpi.active{border:2px solid var(--sidebar-blue-dark); box-shadow:0 12px 28px rgba(5, 38, 90, .18)}
+/* ===== KPI & Cards ===== */
+.kpis{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+  gap:16px;
+  margin-bottom:28px;
+  min-width:0;
+}
+.kpi{background:var(--bg-1); border-radius:var(--radius-xl); box-shadow:var(--shadow); padding:16px 18px; border:1px solid var(--line)}
+.kpi h3{margin:0 0 12px; font-size:1.15rem; font-weight:700; color:var(--text-900); letter-spacing:.2px; display:flex; align-items:center; gap:8px}
+.kpi .kpi-row{display:flex; justify-content:space-between; align-items:center; gap:10px; padding:2px 0}
+.kpi .kpi-num{font-weight:800; font-size:1.6rem; color:var(--text-900)}
+.kpi.clickable{cursor:pointer}
+.kpi.active{box-shadow:var(--shadow), 0 0 0 2px var(--primary) inset; border-color:#a8d7ea}
 
-  .cards{display:grid; grid-template-columns:repeat(auto-fit, minmax(340px, 1fr)); gap:18px; align-items:stretch; grid-auto-flow:row dense}
-  .card{
-    display:flex; flex-direction:column;
-    background:var(--bg-1); border:1px solid var(--line);
-    border-radius:var(--radius-xl); box-shadow:var(--shadow); padding:16px; height:100%;
-  }
-  .card .title{font-weight:600; color:var(--text-900); display:flex; align-items:center; gap:8px}
-  .muted{color:var(--text-500); font-size:.9rem}
+/* Icon next to KPI titles – no background or border */
+.icon-badge{
+  display:inline-grid; place-items:center;
+  width:20px; height:20px; border-radius:0;
+  background:none; border:none;
+}
+.icon-badge svg{width:100%; height:100%}
 
-  .chip{
-    display:inline-flex; align-items:center; gap:6px;
-    padding:6px 10px; border-radius:999px; font-size:.8rem; font-weight:600;
-    background:#eef8ff; color:#0b4bab; border:1px solid #d8ecf7;
-  }
-  .chip.offline{background:#f5f7fb; color:#5c7192; border-color:#e7edf6}
-  .chip.danger{background:rgba(239,68,68,.13); color:#8a2222; border-color:rgba(239,68,68,.25)}
-  .chip.success{background:rgba(34,197,94,.12); color:#0c6d39; border-color:rgba(34,197,94,.25)}
-  .chip.warn{background:rgba(245,158,11,.14); color:#7a4a00; border-color:rgba(245,158,11,.25)}
-  .chip.online{background:#ECFDF5; color:#166534; border-color:#86EFAC}
+/* Device / Unit cards */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  gap:18px;
+  align-items:stretch;
+  min-width:0;
+}
+.card{display:flex; flex-direction:column; background:var(--bg-1); border:1px solid var(--line); border-radius:var(--radius-xl); box-shadow:var(--shadow); padding:16px; height:100%}
+.card .title{font-weight:600; color:var(--text-900); display:flex; align-items:center; gap:8px}
+.muted{color:var(--text-500); font-size:.9rem}
 
-  .device-head{display:flex; flex-direction:column; gap:4px}
-  .device-meta{display:flex; align-items:center; justify-content:space-between; gap:8px; margin:8px 0 10px}
-  .stats{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:auto}
-  .stat{border:1px solid var(--line); border-radius:12px; padding:12px; background:linear-gradient(180deg, #fff, #f9fbff); text-align:center}
-  .stat h4{margin:0 0 6px; font-size:.9rem; color:var(--text-500)}
-  .stat strong{font-size:1.6rem; color:var(--text-900)}
+/* Chips */
+.chip{display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; font-size:.8rem; font-weight:600; background:#eef8ff; color:#0b4bab; border:1px solid #d8ecf7}
+.chip.offline{background:#f5f7fb; color:#5c7192; border-color:#e7edf6}
+.chip.danger{background:rgba(239,68,68,.13); color:#8a2222; border-color:rgba(239,68,68,.25)}
+.chip.success{background:rgba(34,197,94,.12); color:#0c6d39; border-color:rgba(34,197,94,.25)}
+.chip.warn{background:rgba(245,158,11,.14); color:#7a4a00; border-color:rgba(245,158,11,.25)}
+.chip.online{background:#ECFDF5; color:#166534; border-color:#86EFAC}
 
-  .list{width:100%; border-collapse:separate; border-spacing:0 10px; table-layout:fixed}
-  .list thead th{font-size:.9rem; color:var(--text-500); font-weight:600; text-align:left; padding:0 12px 6px}
-  .list tbody tr{background:var(--bg-1); border:1px solid var(--line)}
-  .list tbody td{padding:14px 12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
-  .list tbody tr td:first-child{border-radius:10px 0 0 10px}
-  .list tbody tr td:last-child{border-radius:0 10px 10px 0}
-  .row-actions{display:flex; gap:8px; justify-content:flex-end}
+/* Tables */
+.list{width:100%; border-collapse:separate; border-spacing:0 10px; table-layout:fixed}
+.list thead th{font-size:.9rem; color:var(--text-500); font-weight:600; text-align:left; padding:0 12px 6px; white-space:nowrap}
+.list tbody tr{background:var(--bg-1); border:1px solid var(--line)}
+.list tbody td{padding:14px 12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.list tbody tr td:first-child{border-radius:10px 0 0 10px}
+.list tbody tr td:last-child{border-radius:0 10px 10px 0}
+.row-actions{display:flex; gap:8px; justify-content:flex-end}
 
-  .section{margin:18px 0}
-  .device-hero{display:grid; grid-template-columns:420px 1fr; gap:18px; align-items:start; margin-bottom:18px}
-  .device-hero .photo{background:#f1f9ff; border:1px solid var(--line); border-radius:var(--radius-xl); overflow:hidden; box-shadow:var(--shadow); aspect-ratio:3/2; display:grid; place-items:center}
-  .device-hero .photo img{width:100%; height:100%; object-fit:cover}
-  .dl{display:grid; grid-template-columns:max(140px) 1fr; gap:8px 18px}
-  .dl dt{color:var(--text-500); font-weight:600} .dl dd{margin:0; color:var(--text-900)}
+/* Horizontal scroll isolation for tables only */
+.table-scroll{overflow-x:auto; -webkit-overflow-scrolling:touch; max-width:100%; contain:inline-size}
+.table-scroll > .list{width:max-content; min-width:100%; table-layout:auto}
 
-  /* Form controls (lightweight, matching theme) */
-  .form-grid{display:grid; grid-template-columns:repeat(2, minmax(200px,1fr)); gap:12px 16px}
-  .field{display:flex; flex-direction:column; gap:6px}
-  .field label{font-weight:600; color:var(--text-700)}
-  .input, .select{
-    appearance:none; border:1px solid var(--line); border-radius:10px; padding:10px 12px; background:#fff; color:var(--text-900);
-  }
-  .input:focus{outline:2px solid #a8d7ea; outline-offset:2px}
-  .hint{font-size:.85rem; color:var(--text-500)}
+/* Risk list specifics */
+.list.risk-list tbody td{vertical-align:middle}
+.risk-row{cursor:pointer}
+.risk-row:hover{box-shadow:0 0 0 2px var(--primary) inset}
 
-  /* Toggle (for notifications) */
-  .toggle{display:inline-flex; align-items:center; gap:10px}
-  .switch{
-    position:relative; width:44px; height:24px; border-radius:999px; background:#e6eef8; border:1px solid #dfe7f3; transition:background .2s ease;
-  }
-  .switch::after{
-    content:""; position:absolute; top:2px; left:2px; width:18px; height:18px; border-radius:50%; background:#fff; box-shadow:0 1px 2px rgba(0,0,0,.2); transition:left .2s ease;
-  }
-  input[type="checkbox"].switcher{display:none}
-  input[type="checkbox"].switcher:checked + .switch{background:#95D5EB}
-  input[type="checkbox"].switcher:checked + .switch::after{left:24px}
+/* Parameter badges */
+.param-badges{display:flex; gap:10px; flex-wrap:wrap}
+.param{
+  display:flex; align-items:center; justify-content:center; flex-direction:column;
+  min-width:86px; padding:8px 10px; border-radius:12px; text-align:center;
+  border:1px solid var(--line); background:linear-gradient(180deg,#fff,#f9fbff); color:var(--text-900); font-weight:700
+}
+.param .lbl{font-size:.76rem; font-weight:600; opacity:.9}
+.param .val{font-size:1.05rem}
+.param.warn{background:#FDE68A; border-color:#FCD34D; color:#7a4a00}
+.param.danger{background:#B91C1C; border-color:#991B1B; color:#fff}
 
-  /* Responsive tweaks */
-  @media (min-width:1101px){
-    .tabs-wrap{display:block}
-    aside.sidebar{display:none}
-    main{margin-left:0}
-  }
-  @media (max-width:1100px){
-    .tabs-wrap{display:none}
-    aside.sidebar{display:block}
-    main{margin-left:var(--sidebar-w)}
-  }
-  @media (max-width:680px){
-    :root{ --sidebar-w:220px; }
-    .nav-toggle{display:grid}
+/* Unit stat cards */
+.stats{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:auto; min-width:0}
+.stat{border:1px solid var(--line); border-radius:12px; padding:12px; background:linear-gradient(180deg,#fff,#f9fbff); text-align:center}
+.stat h4{margin:0 0 6px; font-size:.9rem; color:var(--text-500)}
+.stat strong{font-size:1.6rem; color:var(--text-900)}
 
-    aside.sidebar{ transform: translateX(-100%); transition: transform .28s ease, box-shadow .28s ease; will-change: transform; box-shadow: none; }
-    body.side-open aside.sidebar{ transform: translateX(0); box-shadow: 24px 0 40px rgba(9,30,66,.18); }
-    main{ margin-left: 0; }
+.section{margin:18px 0}
 
-    .scrim{ position: fixed; inset: var(--header-h) 0 0 0; background: rgba(4,10,20,.36); backdrop-filter: blur(1px); opacity: 0; pointer-events: none; transition: opacity .2s ease; z-index: 95; }
-    body.side-open .scrim{ opacity: 1; pointer-events: auto; }
-    body.side-open{ overflow: hidden; }
-    .form-grid{grid-template-columns:1fr}
-    .device-hero{grid-template-columns:1fr}
-  }
+/* Detail header block */
+.detail{display:grid; grid-template-columns:420px 1fr; gap:18px; align-items:start; margin-bottom:18px; min-width:0}
+.detail .photo{background:#f1f9ff; border:1px solid var(--line); border-radius:var(--radius-xl); overflow:hidden; box-shadow:var(--shadow); aspect-ratio:3/2; display:grid; place-items:center}
+.detail .photo img{width:100%; height:100%; object-fit:cover}
+.dl{display:grid; grid-template-columns:max(140px) 1fr; gap:8px 18px}
+.dl dt{color:var(--text-500); font-weight:600} .dl dd{margin:0; color:var(--text-900)}
 
-  @media (prefers-reduced-motion: reduce){ *{ transition: none !important; } }
-  @media (max-width:1100px){ .kpis{grid-template-columns:repeat(2, minmax(160px,1fr))} }
-  @media (max-width:640px){ .cards{grid-template-columns:1fr} }
+/* Responsive tweaks */
+@media (max-width:1100px){
+  .tabs-wrap{display:none}
+  aside.sidebar{display:block}
+  main{margin-left:var(--sidebar-w)}
+  .detail{grid-template-columns:1fr}
+}
+@media (max-width:680px){
+  :root{--sidebar-w:220px}
+  .nav-toggle{display:grid}
+  aside.sidebar{transform:translateX(-100%); transition:transform .28s ease, box-shadow .28s ease; will-change:transform; box-shadow:none}
+  body.side-open aside.sidebar{transform:translateX(0); box-shadow:24px 0 40px rgba(9,30,66,.18)}
+  main{margin-left:0}
+  .scrim{position:fixed; inset:var(--header-h) 0 0 0; background:rgba(4,10,20,.36); backdrop-filter:blur(1px); opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:95}
+  body.side-open .scrim{opacity:1; pointer-events:auto}
+}
+@media (prefers-reduced-motion:reduce){ *{transition:none !important} }
 
-  /* Header adjustments (same as admin) */
-  header .header-inner{ position: relative; }
-  header .brand img{ height: 50px; }
-  header .search{
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    width: min(520px, calc(100% - 420px)); flex: 0 0 auto; margin-left: 0; z-index: 2;
-  }
-  @media (max-width: 880px){
-    header .search{ position: static; transform: none; width: auto; flex: 1 1 auto; margin-left: 8px; }
-  }
-  header .header-inner > .icon-btn:first-of-type{ margin-left: auto; }
-  header .header-inner > .search + .icon-btn { margin-left: auto; }
-  header .header-inner > .icon-btn:first-of-type { margin-left: 0; }
+/* Centered search on desktop */
+header .header-inner{ position:relative }
+header .search{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:min(520px, calc(100% - 420px)); flex:0 0 auto; margin-left:0; z-index:2 }
+@media (max-width:880px){ header .search{ position:static; transform:none; width:auto; flex:1 1 auto; margin-left:8px } }
+header .header-inner > .icon-btn:first-of-type{ margin-left:auto }
+header .header-inner > .search + .icon-btn{ margin-left:auto }
+header .header-inner > .icon-btn:first-of-type{ margin-left:0 }
 </style>
 </head>
 <body>
@@ -308,210 +231,219 @@
   <!-- ===== HEADER ===== -->
   <header>
     <div class="container header-inner">
-      <button class="nav-toggle" id="navToggle" title="Menu" aria-label="Menu"
-        aria-controls="sidebar" aria-expanded="false">
+      <button class="nav-toggle" id="navToggle" title="Menu" aria-label="Menu" aria-controls="sidebar" aria-expanded="false">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
       <div class="brand">
         <img src="https://www.i-water.be/wp-content/uploads/2022/10/2iWater.svg" alt="i‑Water" />
       </div>
-      <label class="search" aria-label="Zoeken">
+      <label class="search" aria-label="Search">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 21l-4.3-4.3M10 18a8 8 0 110-16 8 8 0 010 16z" stroke="#5b6f86" stroke-width="2" stroke-linecap="round"/></svg>
-        <input id="globalSearch" placeholder="Zoek in mijn meters…" />
+        <input id="globalSearch" placeholder="Find locations, units, pools or risks…" />
       </label>
-      <button class="icon-btn" title="Vernieuwen" id="refreshBtn">
+      <button class="icon-btn" title="Refresh" id="refreshBtn">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12a9 9 0 10-2.64 6.36M21 12V6m0 6h-6" stroke="#5b6f86" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
-      <button class="icon-btn" title="Profiel" onclick="Router.go('#/profile')">
+      <button class="icon-btn" title="User">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 12a5 5 0 100-10 5 5 0 000 10zM2 22a10 10 0 0120 0" stroke="#5b6f86" stroke-width="2"/></svg>
       </button>
     </div>
   </header>
 
-  <!-- ===== TABS BAR ===== -->
+  <!-- ===== TABS ===== -->
   <div class="tabs-wrap">
-    <nav class="container tabs" id="topTabs" aria-label="Hoofdmenu">
+    <nav class="container tabs" aria-label="Main navigation">
       <a href="#/dashboard" data-route="dashboard" class="active">Dashboard</a>
-      <a href="#/meters" data-route="meters">Mijn meters</a>
-      <a href="#/alarms" data-route="alarms">Alarmen</a>
-      <a href="#/profile" data-route="profile">Profiel</a>
+      <a href="#/locations" data-route="locations">Locations</a>
+      <a href="#/units" data-route="units">Units</a>
+      <a href="#/pools" data-route="pools">Pools</a>
+      <a href="#/alarms" data-route="alarms">Risks</a>
     </nav>
   </div>
 
   <!-- ===== SIDEBAR (mobile/tablet) ===== -->
   <div class="scrim" id="scrim" hidden></div>
-  <aside class="sidebar" id="sidebar">
-    <nav class="side-links" aria-label="Mobiel/Tablet">
-      <a href="#/dashboard" data-route="dashboard" class="active">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" fill="#cfe6ff"/></svg>
-        <span>Dashboard</span>
-      </a>
-      <a href="#/meters" data-route="meters">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 3h14v14H5z" stroke="#cfe6ff" stroke-width="2"/><path d="M9 21h6" stroke="#cfe6ff" stroke-width="2"/></svg>
-        <span>Mijn meters</span>
-      </a>
-      <a href="#/alarms" data-route="alarms">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M1 21h22L12 2 1 21z" stroke="#cfe6ff" stroke-width="2"/></svg>
-        <span>Alarmen</span>
-      </a>
-      <a href="#/profile" data-route="profile">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 12a4 4 0 100-8 4 4 0 000 8zM3 21a9 9 0 0118 0" stroke="#cfe6ff" stroke-width="2"/></svg>
-        <span>Profiel</span>
-      </a>
+  <aside class="sidebar" id="sidebar" aria-label="Mobile/Tablet">
+    <nav class="side-links">
+      <a href="#/dashboard" data-route="dashboard" class="active">Dashboard</a>
+      <a href="#/locations" data-route="locations">Locations</a>
+      <a href="#/units" data-route="units">Units</a>
+      <a href="#/pools" data-route="pools">Pools</a>
+      <a href="#/alarms" data-route="alarms">Risks</a>
     </nav>
-    <div style="margin-top:18px; border-top:1px solid rgba(255,255,255,.08); padding-top:12px; font-size:.85rem; opacity:.8">v0.1 klant‑mockup</div>
+    <div style="margin-top:18px; border-top:1px solid rgba(255,255,255,.08); padding-top:12px; font-size:.85rem; opacity:.8">v0.5 mockup</div>
   </aside>
 
   <!-- ===== MAIN ===== -->
-  <main>
-    <div id="view" class="container"></div>
-  </main>
+  <main><div id="view" class="container"></div></main>
 </div>
 
 <script>
-/* ===========================================================
-   i‑Water CUSTOMER mock data + runtime
-   - Single customer with their own meters
-   - Purely static; all changes persist to localStorage
-   =========================================================== */
-
-/* =================== DEMO DATA =================== */
+/* =============== DEMO DATA (locations → units → pools; alarms on units) =============== */
 const Demo = (() => {
-  const addressesBE = [
-    'Meir 50, 2000 Antwerpen',
-    'Korenmarkt 3, 9000 Gent',
-    'Bondgenotenlaan 100, 3000 Leuven',
-    'Markt 1, 8000 Brugge',
-    'Groenplaats 1, 2000 Antwerpen',
-    'Stationsplein 2, 3500 Hasselt',
-    'Grote Markt 10, 2800 Mechelen',
-    'Nieuwstraat 111, 1000 Brussel'
+  const locs = [
+    { id:'loc-001', name:'Groningen, NL', customer:'i‑water', address:'Sportcentrum 12, 9723 Groningen' },
+    { id:'loc-002', name:'Den Haag, NL',  customer:'Van Hoof', address:'Zeeweg 7, 2586 Den Haag' },
+    { id:'loc-003', name:'Utrecht, NL',   customer:'AquaPark', address:'Singel 88, 3511 Utrecht' },
+    { id:'loc-004', name:'Gent, BE',      customer:'Blue Gardens', address:'Korenmarkt 3, 9000 Gent' },
+    { id:'loc-005', name:'Antwerpen, BE', customer:'Aqua Resort', address:'Meir 50, 2000 Antwerpen' },
+    { id:'loc-006', name:'Leuven, BE',    customer:'Les Chapellins', address:'Bondgenotenlaan 100, 3000 Leuven' },
+    { id:'loc-007', name:'Brugge, BE',    customer:'Les Agnels', address:'Markt 1, 8000 Brugge' },
+    { id:'loc-008', name:'Eindhoven, NL', customer:'Zwem&Fun', address:'Stratumseind 2, 5611 Eindhoven' },
+    { id:'loc-009', name:'Rotterdam, NL', customer:'AquaCity', address:'Binnenweg 10, 3012 Rotterdam' }
   ];
 
-  const customer = {
-    id:'self-001',
-    name:'Aqua Resort – Zwembad',
-    email:'beheer@aquaresort.be',
-    phone:'+32 3 555 12 34',
-    address:'Meir 50, 2000 Antwerpen',
-    notifyEmail:true,
-    notifySMS:false,
-    thresholds:{ phMin:6.8, phMax:7.6, tempMax:30 }
-  };
+  const poolNames = ['Lap pool','Recreation pool','Whirlpool','Kids pool','Thermal pool'];
+  let uid=1, pid=1, aid=1;
 
-  const sampleImg = id => `https://picsum.photos/seed/my-meter-${id}/900/600`;
-
-  const devices = Array.from({length: 8}, (_,i) => {
-    const id = (i+1).toString().padStart(3,'0');
-    const pool = ['online','online','online','alert','offline'];
-    const status = pool[Math.floor(Math.random()*pool.length)];
-    return {
-      id:`IW-${id}`,
-      name:`Meter ${id}`,
-      model: i%3===0 ? 'i‑Water i‑Alka' : i%3===1 ? 'i‑Water i‑3' : 'i‑Water Balance',
-      serial:`SN${200000+i}`,
-      firmware:`v${1+Math.floor(i%2)}.${2+Math.floor(Math.random()*8)}.${Math.floor(Math.random()*10)}`,
-      installedOn: new Date(Date.now() - (10+i)*864e5).toISOString(),
-      location: addressesBE[i % addressesBE.length],
-      status,
-      lastSeen: new Date(Date.now() - Math.floor(Math.random()*12)*36e5).toISOString(),
-      metrics: { pH:(6.8+Math.random()*1.2).toFixed(2), ORP: 550+Math.round(Math.random()*200), temp:(24+Math.random()*7).toFixed(1) },
-      image: sampleImg(i+1),
-      alarms: []
-    }
+  const rand = (min,max) => Math.random()*(max-min)+min;
+  const pick = a => a[Math.floor(Math.random()*a.length)];
+  const makeAlarm = (unitId, severity) => ({
+    id: `AL-${(aid++).toString().padStart(3,'0')}`,
+    unitId,
+    severity,
+    message: severity==='critical' ? 'No data (unit offline)' : pick(['Low free Cl','High EC','pH out of range','Calibration needed']),
+    ts: new Date(Date.now() - Math.floor(Math.random()*48)*36e5).toISOString(),
+    acknowledged: Math.random()>.55
   });
 
-  // Seed some alarms
-  const severity = ['critical','warning','info'];
-  const messages = [
-    'pH buiten bereik',
-    'ALK laag – controleer chloordosering',
-    'Kalibratie van sonde nodig',
-    'Geen data (meter offline)',
-    'Hoge temperatuur'
-  ];
-  devices.forEach(d => {
-    if(d.status==='alert' || Math.random()>.66){
-      const count = 1 + Math.floor(Math.random()*2);
-      for(let i=0;i<count;i++){
-        d.alarms.push({
-          id: `AL-${d.id}-${i+1}`,
-          deviceId: d.id,
-          message: messages[(i + Math.floor(Math.random()*messages.length))%messages.length],
-          severity: severity[(i + Math.floor(Math.random()*severity.length))%severity.length],
-          ts: new Date(Date.now() - (i+1)* (2+Math.random()*72) * 36e5).toISOString(),
-          acknowledged: Math.random()>.6
-        });
+  const locations = locs.map((L,idx) => {
+    const unitCount = 1 + (idx % 3); // 1..3
+    const units = Array.from({length:unitCount}, (_,uix)=>{
+      const statusPool = ['online','online','online','alert','offline'];
+      const status = pick(statusPool);
+
+      const pools = Array.from({length: 1 + (uix % 3)}, () => ({
+        id:`pool-${(pid++).toString().padStart(3,'0')}`,
+        name: pick(poolNames),
+        metrics:{
+          freeCl: +(rand(0.1,0.8)).toFixed(2),
+          ec: Math.round(rand(25,340)),
+          pH: +(rand(6.7,8.1)).toFixed(2)
+        },
+        lastView: new Date(Date.now() - Math.floor(Math.random()*16)*36e5).toISOString()
+      }));
+
+      // Create alarms on the unit if status not clean, or randomly
+      const alarms = [];
+      if(status!=='online' || Math.random()>.7){
+        const cnt = 1 + Math.floor(Math.random()*2);
+        for(let i=0;i<cnt;i++){
+          alarms.push({
+            id: `AL-${(aid++).toString().padStart(3,'0')}`,
+            unitId: `U-${uid.toString().padStart(3,'0')}`,
+            severity: (status==='offline' || Math.random()>.6) ? 'critical' : 'warning',
+            message: pick([
+              'No data (unit offline)',
+              'Low free Cl',
+              'High EC',
+              'pH out of range',
+              'Calibration needed'
+            ]),
+            ts: new Date(Date.now() - (i+1) * (2+Math.random()*48) * 36e5).toISOString(),
+            acknowledged: Math.random()>.55
+          });
+        }
+
+        // Ensure some units show BOTH warning + alarm
+        const hasCrit = alarms.some(a=>a.severity==='critical');
+        const hasWarn = alarms.some(a=>a.severity==='warning');
+        if(Math.random()>.5 && (!hasCrit || !hasWarn)){
+          const unitIdStr = `U-${uid.toString().padStart(3,'0')}`;
+          if(!hasCrit) alarms.push(makeAlarm(unitIdStr, 'critical'));
+          if(!hasWarn) alarms.push(makeAlarm(unitIdStr, 'warning'));
+        }
+      }
+
+      return { id:`U-${(uid++).toString().padStart(3,'0')}`, name:`Unit ${uix+1}`, status, lastSeen: new Date(Date.now() - Math.floor(Math.random()*12)*36e5).toISOString(), pools, alarms };
+    });
+
+    // Guarantee a mix across units for demo richness
+    const locHasCrit = units.some(u=>u.alarms.some(a=>a.severity==='critical'));
+    const locHasWarn = units.some(u=>u.alarms.some(a=>a.severity==='warning'));
+    if(!locHasCrit || !locHasWarn){
+      const target = units[0];
+      if(target){
+        if(!locHasCrit) target.alarms.push(makeAlarm(target.id, 'critical'));
+        if(!locHasWarn) target.alarms.push(makeAlarm(target.id, 'warning'));
       }
     }
+
+    return { ...L, units };
   });
 
-  return { customer, devices };
+  return { locations };
 })();
 
-/* =================== STATE =================== */
-const storeKey = 'iw-customer-mock';
+/* =============== STATE =============== */
+const storeKey = 'iw-admin-mock-v2';
 const State = {
-  load(){
-    const saved = localStorage.getItem(storeKey);
-    if(saved){ try { return JSON.parse(saved) } catch{} }
-    return { customer: Demo.customer, devices: Demo.devices };
-  },
-  save(data){ localStorage.setItem(storeKey, JSON.stringify(data)) }
-}
+  load(){ try{ const saved = JSON.parse(localStorage.getItem(storeKey) || 'null'); if(saved) return saved }catch{}; return { locations: Demo.locations }; },
+  save(d){ localStorage.setItem(storeKey, JSON.stringify(d)) }
+};
 let db = State.load();
 
-/* ====== UI (runtime) STATE – not persisted ====== */
-const UIState = { dashboardStatus: 'alert' }; // 'online' | 'alert' | 'offline' | null
+/* =============== UI STATE =============== */
+const UI = { dashFilter: 'total' };
 
-/* =================== UTIL =================== */
+/* =============== UTIL =============== */
 const fmt = {
-  date(iso){ const d = new Date(iso); return d.toLocaleString('nl-BE'); },
+  date(iso){ const d = new Date(iso); return d.toLocaleString('en-GB'); },
   rel(iso){
     const ms = Date.now() - new Date(iso).getTime();
     const s = Math.round(ms/1000), m = Math.round(s/60), h = Math.round(m/60), d = Math.round(h/24);
-    if (s < 60) return `${s} s geleden`;
-    if (m < 60) return `${m} min geleden`;
-    if (h < 24) return `${h} u geleden`;
-    return `${d} d geleden`;
+    if (s < 60) return `${s} s ago`;
+    if (m < 60) return `${m} min ago`;
+    if (h < 24) return `${h} h ago`;
+    return `${d} d ago`;
   },
   statusChip(s){
     const map = {
-      online:'<span class="chip online" role="status">● Online</span>',
-      offline:'<span class="chip offline" role="status">● Offline</span>',
-      alert:'<span class="chip warn" role="status">● Risico</span>'
-    };
-    return map[s] || s;
+      online:'<span class="chip online">● Online</span>',
+      alert:'<span class="chip warn">● Alert</span>',
+      offline:'<span class="chip offline">● Offline</span>'
+    }; return map[s] || s;
   },
   sevChip(s){
-    const t = s==='critical'?'Kritiek':(s==='warning'?'Waarschuwing':'Info');
+    const t = s==='critical'?'Critical':(s==='warning'?'Warning':'Info');
     const c = s==='critical'?'danger':(s==='warning'?'warn':'');
     return `<span class="chip ${c}">${t}</span>`;
-  },
-  statusLabel(s){ return s==='online' ? 'Online' : s==='alert' ? 'Risico' : s==='offline' ? 'Offline' : ''; }
+  }
 };
 
 const Icons = {
-  total: `
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-      <rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/>
-      <rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>
-    </svg>`,
-  online: `
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-      <path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>`,
-  alert: `
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-      <path d="M12 9v4m0 4h.01M2 21h20L12 3 2 21z" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>`,
-  offline: `
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-      <circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>`
+  total:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>`,
+  online:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M16 9l-5.2 6L8 12.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  alert:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 9v4m0 4h.01M2 21h20L12 3 2 21z" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  offline:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  bell:`<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 17h5l-1.4-1.4A2 2 0 0118 14.2V11a6 6 0 10-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5m6 0a3 3 0 11-6 0" stroke-linecap="round" stroke-linejoin="round"/></svg>`
 };
 
-/* =================== ROUTER =================== */
+/* =============== DERIVED VIEWS OF DATA =============== */
+const Data = {
+  allLocations(){ return db.locations },
+  allUnits(){ return db.locations.flatMap(L => L.units.map(U => ({...U, locationId:L.id, locationName:L.name, customer:L.customer}))); },
+  allPools(){ return db.locations.flatMap(L => L.units.flatMap(U => U.pools.map(P => ({...P, unitId:U.id, unitName:U.name, unitStatus:U.status, locationId:L.id, locationName:L.name, customer:L.customer})))); },
+  allAlarms(){ return db.locations.flatMap(L => L.units.flatMap(U => U.alarms.map(A => ({...A, locationName:L.name, customer:L.customer, unitName:U.name})))); }
+};
+
+/* =============== HELPERS =============== */
+function paramTiles(metrics){
+  const tiles = [];
+  const t = (lbl, val, level) => level==='ok' ? '' : `<div class="param ${level}"><div class="lbl">${lbl}</div><div class="val">${val}</div></div>`;
+  const cl = metrics.freeCl, ec = metrics.ec, pH = metrics.pH;
+  const clLevel = cl < .30 ? 'danger' : (cl < .45 ? 'warn' : 'ok');
+  const ecLevel = ec > 320 ? 'danger' : (ec > 280 ? 'warn' : 'ok');
+  const phLevel = (pH<7.0||pH>7.8) ? 'danger' : ((pH<7.2||pH>7.6) ? 'warn' : 'ok');
+  tiles.push(t('Free Cl', cl.toFixed(2), clLevel));
+  tiles.push(t('EC', ec, ecLevel));
+  tiles.push(t('pH', pH.toFixed(1), phLevel));
+  return tiles.filter(Boolean);
+}
+function countByStatus(units){ const tally = {online:0, alert:0, offline:0}; units.forEach(u=>tally[u.status]++); return tally; }
+const isRiskUnit = u => (!!u && (u.status!=='online' || (u.alarms?.length||0)>0));
+
+/* =============== ROUTER =============== */
 const Router = {
   routes:{},
   go(hash){ location.hash = hash },
@@ -520,500 +452,502 @@ const Router = {
     const render = () => {
       const path = location.hash.replace('#','') || '/dashboard';
       const [base, param] = path.split('/').filter(Boolean);
-
       document.querySelectorAll('.tabs a, .side-links a').forEach(a=>{
         a.classList.toggle('active', a.getAttribute('href') === `#/${base}`);
       });
-
-      const container = document.getElementById('view');
-      if(base==='device' && param){ Views.deviceDetail(container, decodeURIComponent(param)); return; }
-      (Router.routes[`/${base}`] || Router.routes['/dashboard'])(container);
+      const el = document.getElementById('view');
+      if(base==='unit' && param){ Views.unitDetail(el, decodeURIComponent(param)); return; }
+      (Router.routes[`/${base}`] || Router.routes['/dashboard'])(el);
     };
     window.addEventListener('hashchange', render);
     render();
   }
 };
 
-/* =================== VIEWS =================== */
+/* =============== VIEWS =============== */
 const Views = {
+  /* ----- DASHBOARD ----- */
   dashboard(el){
-    const online = db.devices.filter(d=>d.status==='online').length;
-    const offline = db.devices.filter(d=>d.status==='offline').length;
-    const atRisk = db.devices.filter(d=>d.status==='alert').length;
+    const q = (document.getElementById('globalSearch')?.value || '').trim().toLowerCase();
+    const locations = Data.allLocations();
+    const units = Data.allUnits();
+    const poolsAll = Data.allPools();
+    const alarms = Data.allAlarms();
 
-    const filter = UIState.dashboardStatus;
-    const filtered = filter ? db.devices.filter(d=>d.status===filter) : db.devices;
-    const pressed = s => String(filter===s);
+    // Totals for cards
+    const totalUnits = units.length;
+    const totalLocations = locations.length;
+    const customers = new Set(locations.map(l=>l.customer)).size;
+
+    const riskyUnits = units.filter(isRiskUnit);
+    const riskyLocations = new Set(riskyUnits.map(u=>u.locationId)).size;
+    const crit = alarms.filter(a=>a.severity==='critical').length;
+    const warn = alarms.filter(a=>a.severity==='warning').length;
+
+    const onlineUnits = units.filter(u=>u.status==='online').length;
+    const onlineLocations = new Set(units.filter(u=>u.status==='online').map(u=>u.locationId)).size;
+    const offlineUnits = units.filter(u=>u.status==='offline').length;
+    const offlineLocations = new Set(units.filter(u=>u.status==='offline').map(u=>u.locationId)).size;
+
+    // Build map for quick lookups
+    const unitById = new Map(units.map(u=>[u.id,u]));
+
+    // Filter pools according to active KPI card
+    let poolRows = poolsAll;
+    if(UI.dashFilter==='risky'){
+      poolRows = poolsAll.filter(p => isRiskUnit(unitById.get(p.unitId)));
+    }else if(UI.dashFilter==='online'){
+      poolRows = poolsAll.filter(p => unitById.get(p.unitId)?.status === 'online');
+    }else if(UI.dashFilter==='offline'){
+      poolRows = poolsAll.filter(p => unitById.get(p.unitId)?.status === 'offline');
+    }
+    // Search filter
+    const qMatch = (p) => (`${p.name} ${p.locationName} ${p.customer} ${p.unitName}`).toLowerCase().includes(q);
+    poolRows = poolRows.filter(qMatch);
+
+    const isActive = f => UI.dashFilter===f ? 'active' : '';
 
     el.innerHTML = `
-      <div class="toolbar">
-        <h1 data-accent>Mijn overzicht</h1>
-        <span class="help">Status van al uw geïnstalleerde meters${filter ? ` (gefilterd op <strong>${fmt.statusLabel(filter)}</strong>)` : ''}.</span>
-        <div style="flex:1"></div>
-        <button class="btn" onclick="Router.go('#/meters')">Naar mijn meters</button>
+      <div class="toolbar column">
+        <h1 data-accent>Dashboard</h1>
+        <div class="help">Click a card to filter the <strong>pools</strong> list.</div>
       </div>
 
       <section class="kpis">
-        <div class="kpi">
-          <div class="kpi-top">
-            <h3>Totaal aantal meters</h3>
-            <span class="kpi-icon" aria-hidden="true">${Icons.total}</span>
-          </div>
-          <strong>${db.devices.length}</strong>
+        <div class="kpi clickable ${isActive('total')}" data-filter="total" tabindex="0" role="button" aria-pressed="${UI.dashFilter==='total'}">
+          <h3><span class="icon-badge" style="color:#0b4bab">${Icons.total}</span> Total</h3>
+          <div class="kpi-row"><span>Units</span><span class="kpi-num">${totalUnits}</span></div>
+          <div class="kpi-row"><span>Locations</span><span class="kpi-num">${totalLocations}</span></div>
+          <div class="kpi-row"><span>Customers</span><span class="kpi-num">${customers}</span></div>
         </div>
 
-        <div class="kpi clickable ${filter==='online'?'active':''}" role="button" tabindex="0" title="Filter op Online"
-             onclick="UI.setDashboardStatus('online')" onkeydown="if(event.key==='Enter') UI.setDashboardStatus('online')" aria-pressed="${pressed('online')}">
-          <div class="kpi-top">
-            <h3>Online</h3>
-            <span class="kpi-icon" aria-hidden="true">${Icons.online}</span>
-          </div>
-          <strong>${online}</strong>
+        <div class="kpi clickable ${isActive('risky')}" data-filter="risky" tabindex="0" role="button" aria-pressed="${UI.dashFilter==='risky'}">
+          <h3><span class="icon-badge" style="color:#8a2222">${Icons.alert}</span> Risks</h3>
+          <div class="kpi-row"><span>Locations</span><span class="kpi-num">${riskyLocations}</span></div>
+          <div class="kpi-row"><span>Alarms</span><span class="kpi-num">${crit}</span></div>
+          <div class="kpi-row"><span>Warnings</span><span class="kpi-num">${warn}</span></div>
         </div>
 
-        <div class="kpi clickable ${filter==='alert'?'active':''}" role="button" tabindex="0" title="Filter op Risico"
-             onclick="UI.setDashboardStatus('alert')" onkeydown="if(event.key==='Enter') UI.setDashboardStatus('alert')" aria-pressed="${pressed('alert')}">
-          <div class="kpi-top">
-            <h3>Risico</h3>
-            <span class="kpi-icon" aria-hidden="true">${Icons.alert}</span>
-          </div>
-          <strong>${atRisk}</strong>
+        <div class="kpi clickable ${isActive('online')}" data-filter="online" tabindex="0" role="button" aria-pressed="${UI.dashFilter==='online'}">
+          <h3><span class="icon-badge" style="color:var(--success)">${Icons.online}</span> Online</h3>
+          <div class="kpi-row"><span>Units</span><span class="kpi-num">${onlineUnits}</span></div>
+          <div class="kpi-row"><span>Locations</span><span class="kpi-num">${onlineLocations}</span></div>
         </div>
 
-        <div class="kpi clickable ${filter==='offline'?'active':''}" role="button" tabindex="0" title="Filter op Offline"
-             onclick="UI.setDashboardStatus('offline')" onkeydown="if(event.key==='Enter') UI.setDashboardStatus('offline')" aria-pressed="${pressed('offline')}">
-          <div class="kpi-top">
-            <h3>Offline</h3>
-            <span class="kpi-icon" aria-hidden="true">${Icons.offline}</span>
-          </div>
-          <strong>${offline}</strong>
+        <div class="kpi clickable ${isActive('offline')}" data-filter="offline" tabindex="0" role="button" aria-pressed="${UI.dashFilter==='offline'}">
+          <h3><span class="icon-badge" style="color:var(--danger)">${Icons.offline}</span> Offline</h3>
+          <div class="kpi-row"><span>Units</span><span class="kpi-num">${offlineUnits}</span></div>
+          <div class="kpi-row"><span>Locations</span><span class="kpi-num">${offlineLocations}</span></div>
         </div>
       </section>
 
       <section class="section">
-        <h2 data-accent>Meterstatus ${filter ? `${fmt.statusChip(filter)}` : ''}</h2>
-        <div class="cards">
-          ${filtered.slice(0,12).map(d => Views.cardDevice(d)).join('')}
+        <div class="toolbar" style="margin-bottom:10px">
+          <h2 data-accent style="--blob-w:.9em; --blob-h:1.3em">Pools</h2>
+          <div class="help">Filter: <strong>${UI.dashFilter}</strong> · Results: <strong>${poolRows.length}</strong> pools</div>
         </div>
-      </section>
-
-      <section class="section">
-        <h2 data-accent>Recente alarmen</h2>
-        ${Views.tableAlarms(Views._allAlarms().slice(0,8))}
+        ${Views.riskList(poolRows, { offline: UI.dashFilter==='offline' })}
       </section>
     `;
-    Views._bindCardClicks();
+
+    Views._bindKpiClicks();
+    Views._bindRiskRowClicks();
   },
 
-  meters(el){
+  /* ----- LOCATIONS OVERVIEW ----- */
+  locations(el){
     const q = (document.getElementById('globalSearch')?.value || '').trim().toLowerCase();
-    const filtered = db.devices.filter(d => {
-      const hay = `${d.id} ${d.name} ${d.model} ${d.serial}`.toLowerCase();
-      return hay.includes(q);
-    });
+    const rows = Data.allLocations()
+      .filter(L => (`${L.name} ${L.customer} ${L.address}`).toLowerCase().includes(q))
+      .map(L=>{
+        const units = L.units;
+        const pools = units.reduce((n,u)=>n+u.pools.length,0);
+        const s = countByStatus(units);
+        return `
+          <tr>
+            <td><strong>${L.name}</strong><div class="muted">${L.address}</div></td>
+            <td>${L.customer}</td>
+            <td>${units.length}</td>
+            <td>${pools}</td>
+            <td>
+              <span class="chip online">Online ${s.online}</span>
+              <span class="chip warn">Alert ${s.alert}</span>
+              <span class="chip offline">Offline ${s.offline}</span>
+            </td>
+            <td class="row-actions">
+              <button class="btn secondary" onclick="Views._filterUnitsByLocation('${L.id}')">Show units</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
 
     el.innerHTML = `
       <div class="toolbar">
-        <h1 data-accent>Mijn meters</h1>
-        <div class="help">Zoek, filter en open details. Klik op een kaart voor de meterpagina.</div>
-        <div style="flex:1"></div>
-        <button class="btn ghost" onclick="Views._toggleView(this)" data-mode="grid" title="Raster/Tabel wisselen">Tabel</button>
+        <h1 data-accent>Locations</h1>
+        <div class="help">Overview of all locations, with number of units and pools.</div>
       </div>
+      <div class="table-scroll">
+        <table class="list">
+          <thead><tr><th>Location</th><th>Customer</th><th>Units</th><th>Pools</th><th>Status</th><th></th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    `;
+  },
 
-      <div id="deviceView" class="cards">${filtered.map(d => Views.cardDevice(d)).join('')}</div>
+  /* ----- UNITS OVERVIEW ----- */
+  units(el, filter={}) {
+    const q = (document.getElementById('globalSearch')?.value || '').trim().toLowerCase();
+    const units = Data.allUnits()
+      .filter(u => (!filter.locationId || u.locationId===filter.locationId))
+      .filter(u => (`${u.id} ${u.name} ${u.locationName} ${u.customer}`).toLowerCase().includes(q));
 
-      <table id="deviceTable" class="list" style="display:none">
-        <thead>
-          <tr><th>ID</th><th>Naam</th><th>Status</th><th>pH</th><th>ALK</th><th>Temp</th><th>Laatst gezien</th><th></th></tr>
-        </thead>
-        <tbody>
-          ${filtered.map(d => `
+    const rows = units.map(u => {
+      const crit = u.alarms.filter(a=>a.severity==='critical').length;
+      const warn = u.alarms.filter(a=>a.severity==='warning').length;
+      const poolsN = u.pools.length;
+      return `
+        <tr class="risk-row" data-unit="${u.id}">
+          <td><strong>${u.id}</strong><div class="muted">${u.name}</div></td>
+          <td>${u.locationName}</td>
+          <td>${fmt.statusChip(u.status)}</td>
+          <td>${poolsN}</td>
+          <td>
+            ${crit ? `<span class="chip danger">${Icons.bell} ${crit}</span>` : ''}
+            ${warn ? `<span class="chip warn">${Icons.bell} ${warn}</span>` : ''}
+            ${!crit && !warn ? '<span class="muted">None</span>' : ''}
+          </td>
+          <td>${fmt.rel(u.lastSeen)}</td>
+        </tr>
+      `;
+    }).join('');
+
+    el.innerHTML = `
+      <div class="toolbar">
+        <h1 data-accent>Units</h1>
+        <div class="help">${filter.locationName ? `Filtered by location <strong>${filter.locationName}</strong>` : 'All units in the system.'}</div>
+      </div>
+      <div class="table-scroll">
+        <table class="list">
+          <thead><tr><th>Unit</th><th>Location</th><th>Status</th><th>Pools</th><th>Alarms</th><th>Last seen</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    `;
+    Views._bindUnitRowClicks();
+  },
+
+  /* ----- POOLS OVERVIEW ----- */
+  pools(el){
+    const q = (document.getElementById('globalSearch')?.value || '').trim().toLowerCase();
+    const rows = Data.allPools()
+      .filter(p => (`${p.name} ${p.locationName} ${p.customer} ${p.unitName}`).toLowerCase().includes(q))
+      .map(p => {
+        const tiles = paramTiles(p.metrics);
+        return `
+          <tr class="risk-row" data-unit="${p.unitId}">
+            <td><strong>${p.locationName}</strong></td>
+            <td>${p.customer}</td>
+            <td style="text-decoration:underline">${p.name}</td>
+            <td>
+              ${(() => {
+                const unit = Data.allUnits().find(u=>u.id===p.unitId) || {};
+                const crit = (unit.alarms||[]).filter(a=>a.severity==='critical').length;
+                const warn = (unit.alarms||[]).filter(a=>a.severity==='warning').length;
+                return `${crit ? `<span class="chip danger">${Icons.bell} ${crit}</span>` : ''}${warn ? ` <span class="chip warn">${Icons.bell} ${warn}</span>` : ''}${(!crit && !warn) ? '<span class="muted">0</span>' : ''}`;
+              })()}
+            </td>
+            <td><div class="param-badges">${tiles.length? tiles.join('') : '<span class="muted">OK</span>'}</div></td>
+            <td>${fmt.rel(p.lastView)}</td>
+          </tr>
+        `;
+      }).join('');
+
+    el.innerHTML = `
+      <div class="toolbar">
+        <h1 data-accent>Pools</h1>
+        <div class="help">All pools with parameters.</div>
+      </div>
+      <div class="table-scroll">
+        <table class="list risk-list" aria-label="Risk overview">
+          <thead>
             <tr>
-              <td><strong>${d.id}</strong><div class="muted">${d.model}</div></td>
-              <td>${d.name}</td>
-              <td>${fmt.statusChip(d.status)}</td>
-              <td>${d.metrics.pH}</td><td>${d.metrics.ORP}</td><td>${d.metrics.temp}°C</td>
-              <td>${fmt.rel(d.lastSeen)}</td>
-              <td class="row-actions"><button class="btn secondary" onclick="Router.go('#/device/${encodeURIComponent(d.id)}')">Openen</button></td>
-            </tr>`).join('')}
-        </tbody>
-      </table>
-    `;
-    Views._bindCardClicks();
-  },
-
-  deviceDetail(el, deviceId){
-    const d = db.devices.find(x=>x.id===deviceId);
-    if(!d){ el.innerHTML = `<p>Meter niet gevonden</p>`; return; }
-    el.innerHTML = `
-      <div class="toolbar">
-        <button class="btn ghost" onclick="history.back()">&larr; Terug</button>
-        <h1 data-accent>${d.name} <span class="muted">(${d.id})</span></h1>
-        <div style="flex:1"></div>
-        <div>${fmt.statusChip(d.status)}</div>
-      </div>
-
-      <div class="device-hero">
-        <div class="photo"><img alt="Foto van de meter" src="${d.image}" /></div>
-        <div class="card">
-          <div class="title">Metergegevens</div>
-          <div class="dl" style="margin-top:10px">
-            <dt>Model</dt><dd>${d.model}</dd>
-            <dt>Serienummer</dt><dd>${d.serial}</dd>
-            <dt>Firmware</dt><dd>${d.firmware}</dd>
-            <dt>Geïnstalleerd</dt><dd>${fmt.date(d.installedOn)}</dd>
-            <dt>Locatie</dt><dd>${d.location}</dd>
-            <dt>Laatst gezien</dt><dd>${fmt.rel(d.lastSeen)}</dd>
-          </div>
-          <div style="display:flex; gap:8px; margin-top:12px">
-            <button class="btn secondary" onclick="Views._renameDevice('${d.id}')">Naam bewerken</button>
-            <button class="btn secondary" onclick="Views._simulateReading('${d.id}')">Nieuwe meting simuleren</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="cards">
-        <div class="card">
-          <div class="title">Actuele waarden</div>
-          <div class="stats" style="margin-top:12px">
-            <div class="stat"><h4>pH</h4><strong id="ph-${d.id}">${d.metrics.pH}</strong></div>
-            <div class="stat"><h4>ALK</h4><strong id="orp-${d.id}">${d.metrics.ORP}</strong></div>
-            <div class="stat"><h4>Temperatuur</h4><strong id="tmp-${d.id}">${d.metrics.temp} °C</strong></div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="title">Alarmen</div>
-          ${d.alarms?.length ? Views.tableAlarms(d.alarms, true) : '<p class="muted">Geen alarmen voor deze meter.</p>'}
-        </div>
+              <th>Location</th>
+              <th>Customer</th>
+              <th>Pool name</th>
+              <th>Risks</th>
+              <th>Parameters</th>
+              <th>Latest view</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
       </div>
     `;
+    Views._bindUnitRowClicks();
   },
 
+  /* ----- ALARMS OVERVIEW ----- */
   alarms(el){
-    const all = Views._allAlarms();
+    const all = Data.allAlarms().sort((a,b)=> new Date(b.ts)-new Date(a.ts));
     el.innerHTML = `
       <div class="toolbar">
-        <h1 data-accent>Alarmen</h1>
-        <div class="help">Bevestig of filter op ernst.</div>
+        <h1 data-accent>Risks</h1>
+        <div class="help">Overview of all alarms across units.</div>
       </div>
-      ${Views.tableAlarms(all, true)}
+      ${Views.tableAlarms(all,true)}
     `;
   },
 
-  profile(el){
-    const c = db.customer;
+  /* ----- UNIT DETAIL ----- */
+  unitDetail(el, unitId){
+    const L = db.locations.find(loc => loc.units.some(u=>u.id===unitId));
+    if(!L){ el.innerHTML = '<p>Unit not found.</p>'; return; }
+    const U = L.units.find(u=>u.id===unitId);
+
+    const pools = U.pools.map(p => {
+      const tiles = paramTiles(p.metrics);
+      return `
+        <tr>
+          <td><strong>${p.name}</strong></td>
+          <td><div class="param-badges">${tiles.length? tiles.join('') : '<span class="muted">OK</span>'}</div></td>
+          <td>${fmt.rel(p.lastView)}</td>
+        </tr>
+      `;
+    }).join('');
+
     el.innerHTML = `
       <div class="toolbar">
-        <h1 data-accent>Profiel</h1>
-        <div class="help">Beheer uw gegevens en meldingen.</div>
+        <button class="btn ghost" onclick="history.back()">&larr; Back</button>
+        <h1 data-accent>${U.name} <span class="muted">(${U.id})</span></h1>
+        <div style="flex:1"></div>
+        <div>${fmt.statusChip(U.status)}</div>
+      </div>
+
+      <div class="detail">
+        <div class="photo"><img alt="Photo of the unit" src="https://picsum.photos/seed/${encodeURIComponent(U.id)}/900/600" /></div>
+        <div class="card">
+          <div class="title">Location & Unit</div>
+          <div class="dl" style="margin-top:10px">
+            <dt>Location</dt><dd>${L.name}</dd>
+            <dt>Customer</dt><dd>${L.customer}</dd>
+            <dt>Address</dt><dd>${L.address}</dd>
+            <dt>Last seen</dt><dd>${fmt.rel(U.lastSeen)}</dd>
+            <dt>Status</dt><dd>${fmt.statusChip(U.status)}</dd>
+            <dt>Pools</dt><dd>${U.pools.length}</dd>
+          </div>
+        </div>
       </div>
 
       <div class="cards">
         <div class="card">
-          <div class="title">Persoonlijke gegevens</div>
-          <form id="profileForm" style="margin-top:12px">
-            <div class="form-grid">
-              <div class="field">
-                <label for="name">Naam</label>
-                <input class="input" id="name" value="${c.name}" required />
-              </div>
-              <div class="field">
-                <label for="email">E‑mail</label>
-                <input type="email" class="input" id="email" value="${c.email}" required />
-              </div>
-              <div class="field">
-                <label for="phone">Telefoon</label>
-                <input class="input" id="phone" value="${c.phone}" />
-              </div>
-              <div class="field">
-                <label for="address">Adres</label>
-                <input class="input" id="address" value="${c.address}" />
-              </div>
-              <div class="field">
-                <label for="pwd">Nieuw wachtwoord</label>
-                <input type="password" class="input" id="pwd" placeholder="(voorbeeld – geen echte login)" />
-                <div class="hint">Mockup: dit wordt niet echt gebruikt voor inloggen.</div>
-              </div>
-            </div>
-
-            <div style="height:12px"></div>
-            <div class="title">Meldingen</div>
-            <div class="form-grid" style="margin-top:10px">
-              <div class="field">
-                <label class="toggle">
-                  <input type="checkbox" id="notifyEmail" class="switcher" ${c.notifyEmail ? 'checked' : ''}/>
-                  <span class="switch" aria-hidden="true"></span>
-                  <span>E‑mailmeldingen</span>
-                </label>
-              </div>
-              <div class="field">
-                <label class="toggle">
-                  <input type="checkbox" id="notifySMS" class="switcher" ${c.notifySMS ? 'checked' : ''}/>
-                  <span class="switch" aria-hidden="true"></span>
-                  <span>SMS‑meldingen</span>
-                </label>
-              </div>
-              <div class="field">
-                <label for="phMin">pH minimum</label>
-                <input type="number" step="0.1" class="input" id="phMin" value="${c.thresholds.phMin}"/>
-              </div>
-              <div class="field">
-                <label for="phMax">pH maximum</label>
-                <input type="number" step="0.1" class="input" id="phMax" value="${c.thresholds.phMax}"/>
-              </div>
-              <div class="field">
-                <label for="tempMax">Max. temperatuur (°C)</label>
-                <input type="number" step="0.1" class="input" id="tempMax" value="${c.thresholds.tempMax}"/>
-              </div>
-            </div>
-
-            <div style="display:flex; gap:10px; margin-top:14px">
-              <button class="btn" type="submit">Opslaan</button>
-              <button class="btn secondary" type="button" onclick="Router.go('#/dashboard')">Annuleren</button>
-            </div>
-          </form>
+          <div class="title">Pools</div>
+          <div class="table-scroll" style="margin-top:10px">
+            <table class="list">
+              <thead><tr><th>Pool</th><th>Parameters</th><th>Latest view</th></tr></thead>
+              <tbody>${pools}</tbody>
+            </table>
+          </div>
         </div>
 
         <div class="card">
-          <div class="title">Over dit account</div>
-          <p class="muted">Dit is een statische mockup voor demo‑doeleinden. Gegevens worden lokaal opgeslagen in uw browser (localStorage).</p>
+          <div class="title">Alarms</div>
+          ${U.alarms.length ? Views.tableAlarms(U.alarms) : '<p class="muted">No alarms for this unit.</p>'}
         </div>
       </div>
     `;
-
-    // Hook submit
-    document.getElementById('profileForm').addEventListener('submit', (e)=>{
-      e.preventDefault();
-      Views._saveProfile();
-    });
   },
 
-  // === Partials ===
-  cardDevice(d){
+  /* ----- PARTIALS ----- */
+  riskList(poolRows, opts = {}){
+    const showOfflineCol = !!opts.offline;
+
+    if(!poolRows.length) return '<p class="muted">No risks found.</p>';
+    const rows = poolRows.map(p=>{
+      const unit = Data.allUnits().find(u=>u.id===p.unitId) || {};
+      const crit = (unit.alarms||[]).filter(a=>a.severity==='critical').length;
+      const warn = (unit.alarms||[]).filter(a=>a.severity==='warning').length;
+      const tiles = paramTiles(p.metrics);
+      return `
+        <tr class="risk-row" data-unit="${p.unitId}">
+          <td><strong>${p.locationName}</strong></td>
+          <td>${p.customer}</td>
+          <td style="text-decoration:underline">${p.name}</td>
+          <td>
+            ${crit ? `<span class="chip danger">${Icons.bell} ${crit}</span>` : ''}
+            ${warn ? `<span class="chip warn">${Icons.bell} ${warn}</span>` : ''}
+            ${(!crit && !warn) ? '<span class="muted">0</span>' : ''}
+          </td>
+          <td><div class="param-badges">${tiles.length ? tiles.join('') : '<span class="muted">OK</span>'}</div></td>
+          ${showOfflineCol ? `<td>${unit?.lastSeen ? fmt.date(unit.lastSeen) : '-'}</td>` : ''}
+          <td>${fmt.rel(p.lastView)}</td>
+        </tr>
+      `;
+    }).join('');
     return `
-      <article class="card device-card" data-id="${d.id}" role="button" tabindex="0" title="Open ${d.name}">
-        <div class="device-head">
-          <div class="title">${d.name}</div>
-          <div class="muted">${d.model}</div>
-        </div>
-        <div class="device-meta">
-          ${fmt.statusChip(d.status)}
-          <div class="muted">Laatst gezien ${fmt.rel(d.lastSeen)}</div>
-        </div>
-        <div class="stats">
-          <div class="stat"><h4>pH</h4><strong>${d.metrics.pH}</strong></div>
-          <div class="stat"><h4>ALK</h4><strong>${d.metrics.ORP}</strong></div>
-          <div class="stat"><h4>T</h4><strong>${d.metrics.temp}°C</strong></div>
-        </div>
-      </article>
+      <div class="table-scroll">
+        <table class="list risk-list" aria-label="Risk overview">
+          <thead>
+            <tr>
+              <th>Location</th>
+              <th>Customer</th>
+              <th>Pool name</th>
+              <th>Risks</th>
+              <th>Parameters</th>
+              ${showOfflineCol ? '<th>Date offline</th>' : ''}
+              <th>Latest view</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
     `;
   },
 
   tableAlarms(list, actionable=false){
-    if(!list.length) return '<p class="muted">Geen alarmen.</p>';
+    if(!list.length) return '<p class="muted">No alarms.</p>';
     const rows = list
-      .sort((a,b)=> new Date(b.ts) - new Date(a.ts))
-      .map(a=>{
-        const dev = db.devices.find(d=>d.id===a.deviceId);
-        return `
+      .sort((a,b)=> new Date(b.ts)-new Date(a.ts))
+      .map(a => `
         <tr>
           <td><strong>${a.id}</strong><div class="muted">${a.message}</div></td>
           <td>${fmt.sevChip(a.severity)}</td>
-          <td><a href="#/device/${encodeURIComponent(dev?.id || a.deviceId)}">${dev?.name || a.deviceId}</a></td>
+          <td>${a.locationName || ''}</td>
+          <td>${a.unitName || ''}</td>
           <td>${fmt.rel(a.ts)}</td>
-          <td>${a.acknowledged?'<span class="chip success">Bevestigd</span>':'<span class="chip warn">Open</span>'}</td>
-          <td class="row-actions">
-            ${actionable ? `<button class="btn secondary" onclick="Views._toggleAck('${a.id}')">${a.acknowledged?'Maak ongedaan':'Bevestigen'}</button>`:''}
-          </td>
-        </tr>`;
-      }).join('');
+          <td>${a.acknowledged?'<span class="chip success">Acknowledged</span>':'<span class="chip warn">Open</span>'}</td>
+          ${actionable ? `<td class="row-actions"><button class="btn secondary" onclick="Views._toggleAck('${a.id}')">${a.acknowledged?'Undo':'Acknowledge'}</button></td>`:''}
+        </tr>
+      `).join('');
     return `
-      <table class="list">
-        <thead>
-          <tr><th>Alarm</th><th>Ernst</th><th>Meter</th><th>Wanneer</th><th>Status</th>${actionable?'<th></th>':''}</tr>
-        </thead>
-        <tbody>${rows}</tbody>
-      </table>
+      <div class="table-scroll">
+        <table class="list">
+          <thead><tr><th>Alarm</th><th>Severity</th><th>Location</th><th>Unit</th><th>When</th><th>Status</th>${actionable?'<th></th>':''}</tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
     `;
   },
 
-  _bindCardClicks(){
-    document.querySelectorAll('.device-card').forEach(el=>{
-      el.addEventListener('click', ()=> Router.go(`#/device/${encodeURIComponent(el.dataset.id)}`));
-      el.addEventListener('keydown', (e)=>{ if(e.key==='Enter') Router.go(`#/device/${encodeURIComponent(el.dataset.id)}`) });
+  _toggleAck(id){
+    for(const L of db.locations){
+      for(const U of L.units){
+        const a = U.alarms.find(x=>x.id===id);
+        if(a){ a.acknowledged = !a.acknowledged; State.save(db); Router.go('#/alarms'); return; }
+      }
+    }
+  },
+
+  _filterUnitsByLocation(locId){
+    const L = db.locations.find(x=>x.id===locId);
+    Router.routes['/units'](document.getElementById('view'), { locationId: locId, locationName: L?.name });
+  },
+
+  _bindKpiClicks(){
+    document.querySelectorAll('.kpi.clickable').forEach(k=>{
+      k.addEventListener('click', ()=>{
+        UI.dashFilter = k.dataset.filter;
+        Views.dashboard(document.getElementById('view'));
+      });
+      k.addEventListener('keydown', e=>{
+        if(e.key==='Enter' || e.key===' '){
+          e.preventDefault();
+          UI.dashFilter = k.dataset.filter;
+          Views.dashboard(document.getElementById('view'));
+        }
+      });
     });
   },
-  _allAlarms(){ return db.devices.flatMap(d => d.alarms.map(a=>({...a, deviceId:d.id }))) },
-
-  _toggleView(btn){
-    const mode = btn.getAttribute('data-mode'); // 'grid' | 'table'
-    const grid = document.getElementById('deviceView');
-    const table = document.getElementById('deviceTable');
-
-    if(mode==='grid'){
-      grid.style.display='none';
-      table.style.display='';
-      btn.textContent = 'Raster';
-      btn.setAttribute('data-mode','table');
-    }else{
-      grid.style.display='grid';
-      table.style.display='none';
-      btn.textContent = 'Tabel';
-      btn.setAttribute('data-mode','grid');
-    }
+  _bindRiskRowClicks(){
+    document.querySelectorAll('.risk-row').forEach(r=>{
+      r.addEventListener('click', ()=> Router.go(`#/unit/${encodeURIComponent(r.dataset.unit)}`));
+      r.addEventListener('keydown', e=>{ if(e.key==='Enter') Router.go(`#/unit/${encodeURIComponent(r.dataset.unit)}`) });
+    });
   },
-
-  _toggleAck(alarmId){
-    for(const d of db.devices){
-      const a = d.alarms.find(x=>x.id===alarmId);
-      if(a){ a.acknowledged = !a.acknowledged; break; }
-    }
-    State.save(db);
-    const hash = location.hash.replace('#','');
-    if(hash.startsWith('/alarms')) Router.go('#/alarms'); else Router.go(hash);
-  },
-
-  _renameDevice(deviceId){
-    const d = db.devices.find(x=>x.id===deviceId);
-    if(!d) return;
-    const name = prompt('Nieuwe naam voor deze meter:', d.name);
-    if(!name) return;
-    d.name = name.trim();
-    State.save(db);
-    Router.go(`#/device/${encodeURIComponent(deviceId)}`);
-  },
-
-  _simulateReading(deviceId){
-    const d = db.devices.find(x=>x.id===deviceId);
-    if(!d) return;
-    d.metrics.pH = (6.8 + Math.random()*1.4).toFixed(2);
-    d.metrics.ORP = 540 + Math.round(Math.random()*240);
-    d.metrics.temp = (24 + Math.random()*8).toFixed(1);
-    d.lastSeen = new Date().toISOString();
-
-    // Optional: generate alert when thresholds exceeded
-    const t = db.customer.thresholds;
-    const outOfRange = (parseFloat(d.metrics.pH) < t.phMin) || (parseFloat(d.metrics.pH) > t.phMax) || (parseFloat(d.metrics.temp) > t.tempMax);
-    if(outOfRange){
-      d.status = 'alert';
-      d.alarms.push({
-        id:`AL-${d.id}-${Math.ceil(Math.random()*999)}`,
-        deviceId:d.id,
-        severity:'warning',
-        message:'Waarde buiten ingestelde drempel',
-        ts:new Date().toISOString(),
-        acknowledged:false
-      });
-    }else{
-      d.status = 'online';
-    }
-
-    State.save(db);
-    Router.go(`#/device/${encodeURIComponent(deviceId)}`);
-  },
-
-  _saveProfile(){
-    const c = db.customer;
-    c.name  = document.getElementById('name').value.trim();
-    c.email = document.getElementById('email').value.trim();
-    c.phone = document.getElementById('phone').value.trim();
-    c.address = document.getElementById('address').value.trim();
-    c.notifyEmail = document.getElementById('notifyEmail').checked;
-    c.notifySMS = document.getElementById('notifySMS').checked;
-
-    const phMin = parseFloat(document.getElementById('phMin').value);
-    const phMax = parseFloat(document.getElementById('phMax').value);
-    const tempMax = parseFloat(document.getElementById('tempMax').value);
-    c.thresholds = {
-      phMin: isNaN(phMin) ? c.thresholds.phMin : phMin,
-      phMax: isNaN(phMax) ? c.thresholds.phMax : phMax,
-      tempMax: isNaN(tempMax) ? c.thresholds.tempMax : tempMax
-    };
-
-    // Password ignored (mockup)
-    State.save(db);
-    alert('Profiel opgeslagen.');
-    Router.go('#/profile');
+  _bindUnitRowClicks(){
+    document.querySelectorAll('.risk-row').forEach(r=>{
+      r.addEventListener('click', ()=> Router.go(`#/unit/${encodeURIComponent(r.dataset.unit)}`));
+    });
   }
 };
 
-/* =================== WIRING =================== */
+/* =============== REFRESH (simulate updates) =============== */
 document.getElementById('refreshBtn').addEventListener('click', ()=>{
-  db.devices.forEach(d=>{
-    const r = Math.random();
-    d.status = r>.85? 'offline' : r>.65 ? 'alert' : 'online';
-    d.lastSeen = new Date().toISOString();
+  db.locations.forEach(L=>{
+    L.units.forEach(U=>{
+      const r = Math.random();
+      const newStatus = r>.85? 'offline' : r>.65? 'alert' : 'online';
+      const wasOffline = U.status === 'offline';
+      U.status = newStatus;
 
-    // Occasionally add a new alarm if not online
-    if(d.status!=='online' && Math.random()>.5){
-      d.alarms.push({
-        id:`AL-${d.id}-${Math.ceil(Math.random()*999)}`,
-        deviceId:d.id, severity: d.status==='offline'?'critical':'warning',
-        message: d.status==='offline'?'Geen data (offline)':'pH buiten bereik',
-        ts:new Date().toISOString(), acknowledged:false
+      // Update "lastSeen" only if not offline
+      if(newStatus !== 'offline'){
+        U.lastSeen = new Date().toISOString();
+      }
+
+      // Occasionally add an alarm to unit
+      if(U.status!=='online' && Math.random()>.5){
+        U.alarms.push({
+          id:`AL-${Math.floor(Math.random()*999).toString().padStart(3,'0')}`,
+          unitId:U.id, severity: U.status==='offline' ? 'critical' : 'warning',
+          message: U.status==='offline' ? 'No data (unit offline)' : pick(['Low free Cl','High EC','pH out of range']),
+          ts:new Date().toISOString(), acknowledged:false
+        });
+      }
+
+      // Nudge pool metrics only if the unit is not offline
+      U.pools.forEach(P=>{
+        if(U.status !== 'offline'){
+          P.metrics.freeCl = +(Math.max(.1, Math.min(.9, P.metrics.freeCl + (Math.random()-.5)*.1))).toFixed(2);
+          P.metrics.ec = Math.max(20, Math.min(360, Math.round(P.metrics.ec + (Math.random()-.5)*30)));
+          P.metrics.pH = +(Math.max(6.6, Math.min(8.2, P.metrics.pH + (Math.random()-.5)*.2))).toFixed(2);
+          P.lastView = new Date().toISOString();
+        }
       });
-    }
+    });
   });
   State.save(db);
-  const hash = location.hash || '#/dashboard';
-  Router.go(hash);
+  Views.dashboard(document.getElementById('view'));
 });
+function pick(a){ return a[Math.floor(Math.random()*a.length)] }
 
+/* =============== SEARCH WIRING =============== */
 document.getElementById('globalSearch').addEventListener('input', ()=>{
   const hash = location.hash.replace('#','');
-  if(hash.startsWith('/meters')) Views.meters(document.getElementById('view'));
-  else if(hash.startsWith('/dashboard')) Views.dashboard(document.getElementById('view'));
+  const [base] = (hash || '/dashboard').split('/').filter(Boolean);
+  const el = document.getElementById('view');
+  if(base==='locations') Views.locations(el);
+  else if(base==='units') Views.units(el);
+  else if(base==='pools') Views.pools(el);
+  else if(base==='alarms') Views.alarms(el);
+  else Views.dashboard(el);
 });
 
-// Mobile drawer toggle (phones only)
+/* =============== MOBILE SIDEBAR =============== */
 (() => {
   const navToggle = document.getElementById('navToggle');
   const sidebar   = document.getElementById('sidebar');
   const scrim     = document.getElementById('scrim');
   const mqMobile  = window.matchMedia('(max-width:680px)');
 
-  const closeSidebar = () => {
-    document.body.classList.remove('side-open');
-    navToggle?.setAttribute('aria-expanded','false');
-    if (scrim) scrim.hidden = true;
-  };
-  const openSidebar = () => {
-    if (!mqMobile.matches) return;
-    document.body.classList.add('side-open');
-    navToggle?.setAttribute('aria-expanded','true');
-    if (scrim) scrim.hidden = false;
-  };
-  const toggleSidebar = () =>
-    document.body.classList.contains('side-open') ? closeSidebar() : openSidebar();
+  const closeSidebar = () => { document.body.classList.remove('side-open'); navToggle?.setAttribute('aria-expanded','false'); if(scrim) scrim.hidden = true; };
+  const openSidebar = () => { if(!mqMobile.matches) return; document.body.classList.add('side-open'); navToggle?.setAttribute('aria-expanded','true'); if(scrim) scrim.hidden = false; };
+  const toggleSidebar = () => document.body.classList.contains('side-open') ? closeSidebar() : openSidebar();
 
   navToggle?.addEventListener('click', toggleSidebar);
   scrim?.addEventListener('click', closeSidebar);
   window.addEventListener('keydown', e => { if (e.key === 'Escape') closeSidebar(); });
-
   window.addEventListener('hashchange', closeSidebar);
   window.addEventListener('resize', () => { if (!mqMobile.matches) closeSidebar(); });
-
-  sidebar?.addEventListener('click', (e) => { if (e.target.closest('a')) closeSidebar(); });
+  sidebar?.addEventListener('click', e => { if (e.target.closest('a')) closeSidebar(); });
 })();
 
-/* Dashboard filter via KPI tiles */
-const UI = {
-  setDashboardStatus(status){
-    UIState.dashboardStatus = (UIState.dashboardStatus === status) ? null : status;
-    const hash = location.hash.replace('#','');
-    if(hash.startsWith('/dashboard') || !hash){
-      Views.dashboard(document.getElementById('view'));
-    }else{
-      Router.go('#/dashboard');
-    }
-  }
-};
-
-/* Routes */
+/* =============== ROUTES =============== */
 Router.on('/dashboard', Views.dashboard);
-Router.on('/meters', Views.meters);
+Router.on('/locations', Views.locations);
+Router.on('/units', Views.units);
+Router.on('/pools', Views.pools);
 Router.on('/alarms', Views.alarms);
-Router.on('/profile', Views.profile);
 Router.start();
 </script>
 </body>
