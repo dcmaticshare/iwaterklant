@@ -278,7 +278,7 @@ header .header-inner > .icon-btn:first-of-type{ margin-left:0 }
       <a href="#/pools" data-route="pools">Pools</a>
       <a href="#/alarms" data-route="alarms">Notifications</a>
     </nav>
-    <div style="margin-top:18px; border-top:1px solid rgba(255,255,255,.08); padding-top:12px; font-size:.85rem; opacity:.8">v0.7 mockup</div>
+    <div style="margin-top:18px; border-top:1px solid rgba(255,255,255,.08); padding-top:12px; font-size:.85rem; opacity:.8">v0.8 mockup</div>
   </aside>
 
   <!-- ===== MAIN ===== -->
@@ -289,15 +289,24 @@ header .header-inner > .icon-btn:first-of-type{ margin-left:0 }
 /* =============== DEMO DATA (locations → units → pools; alarms on pools) =============== */
 const Demo = (() => {
   const locs = [
-    { id:'loc-001', name:'Groningen, NL', customer:'i‑water', address:'Sportcentrum 12, 9723 Groningen' },
-    { id:'loc-002', name:'Den Haag, NL',  customer:'Van Hoof', address:'Zeeweg 7, 2586 Den Haag' },
-    { id:'loc-003', name:'Utrecht, NL',   customer:'AquaPark', address:'Singel 88, 3511 Utrecht' },
-    { id:'loc-004', name:'Gent, BE',      customer:'Blue Gardens', address:'Korenmarkt 3, 9000 Gent' },
-    { id:'loc-005', name:'Antwerpen, BE', customer:'Aqua Resort', address:'Meir 50, 2000 Antwerpen' },
-    { id:'loc-006', name:'Leuven, BE',    customer:'Les Chapellins', address:'Bondgenotenlaan 100, 3000 Leuven' },
-    { id:'loc-007', name:'Brugge, BE',    customer:'Les Agnels', address:'Markt 1, 8000 Brugge' },
-    { id:'loc-008', name:'Eindhoven, NL', customer:'Zwem&Fun', address:'Stratumseind 2, 5611 Eindhoven' },
-    { id:'loc-009', name:'Rotterdam, NL', customer:'AquaCity', address:'Binnenweg 10, 3012 Rotterdam' }
+    { id:'loc-001', name:'Groningen, NL', customer:'i‑water', address:'Sportcentrum 12, 9723 Groningen',
+      street:'Sportcentrum', nr:'12', extraInfo:'Indoor pool', postalCode:'9723', country:'Netherlands', lat:53.22, lng:6.57 },
+    { id:'loc-002', name:'Den Haag, NL',  customer:'Van Hoof', address:'Zeeweg 7, 2586 Den Haag',
+      street:'Zeeweg', nr:'7', extraInfo:'', postalCode:'2586', country:'Netherlands', lat:52.08, lng:4.29 },
+    { id:'loc-003', name:'Utrecht, NL',   customer:'AquaPark', address:'Singel 88, 3511 Utrecht',
+      street:'Singel', nr:'88', extraInfo:'City center', postalCode:'3511', country:'Netherlands', lat:52.09, lng:5.12 },
+    { id:'loc-004', name:'Gent, BE',      customer:'Blue Gardens', address:'Korenmarkt 3, 9000 Gent',
+      street:'Korenmarkt', nr:'3', extraInfo:'', postalCode:'9000', country:'Belgium', lat:51.05, lng:3.72 },
+    { id:'loc-005', name:'Antwerpen, BE', customer:'Aqua Resort', address:'Meir 50, 2000 Antwerpen',
+      street:'Meir', nr:'50', extraInfo:'', postalCode:'2000', country:'Belgium', lat:51.22, lng:4.40 },
+    { id:'loc-006', name:'Leuven, BE',    customer:'Les Chapellins', address:'Bondgenotenlaan 100, 3000 Leuven',
+      street:'Bondgenotenlaan', nr:'100', extraInfo:'', postalCode:'3000', country:'Belgium', lat:50.88, lng:4.70 },
+    { id:'loc-007', name:'Brugge, BE',    customer:'Les Agnels', address:'Markt 1, 8000 Brugge',
+      street:'Markt', nr:'1', extraInfo:'Historic site', postalCode:'8000', country:'Belgium', lat:51.21, lng:3.22 },
+    { id:'loc-008', name:'Eindhoven, NL', customer:'Zwem&Fun', address:'Stratumseind 2, 5611 Eindhoven',
+      street:'Stratumseind', nr:'2', extraInfo:'', postalCode:'5611', country:'Netherlands', lat:51.44, lng:5.48 },
+    { id:'loc-009', name:'Rotterdam, NL', customer:'AquaCity', address:'Binnenweg 10, 3012 Rotterdam',
+      street:'Binnenweg', nr:'10', extraInfo:'', postalCode:'3012', country:'Netherlands', lat:51.92, lng:4.48 }
   ];
   const poolNames = ['Lap pool','Recreation pool','Whirlpool','Kids pool','Thermal pool'];
   const poolTypes = ['spa','pool','up flow pond','downflow pond','dompelbad','lake','sea salt water pool'];
@@ -326,8 +335,6 @@ const Demo = (() => {
     const units = Array.from({length:unitCount}, (_,uix)=>{
       const statusPool = ['online','online','online','alert','offline'];
       const status = pick(statusPool);
-
-      // --- Pools for this unit (with requested attributes & pool-level alarms) ---
       const pools = Array.from({length: 1 + (uix % 3)}, () => {
         const id = `pool-${(pid++).toString().padStart(3,'0')}`;
         const pool = {
@@ -352,7 +359,6 @@ const Demo = (() => {
           for(let i=0;i<count;i++){
             pool.alarms.push(makePoolAlarm(id, Math.random()>.55 ? 'critical' : 'warning'));
           }
-          // occasionally ensure mixed severities
           if(!pool.alarms.some(a=>a.severity==='critical') && Math.random()>.5){
             pool.alarms.push(makePoolAlarm(id, 'critical'));
           }
@@ -360,8 +366,7 @@ const Demo = (() => {
         return pool;
       });
 
-      // --- Unit extended attributes (requested) ---
-      const firstPoweredOn = pastDate(400, 1200);  // 1.1–3.3y ago
+      const firstPoweredOn = pastDate(400, 1200);
       const installationDate = pastDate(300, 800);
       return {
         id:`U-${(uid++).toString().padStart(3,'0')}`,
@@ -369,7 +374,6 @@ const Demo = (() => {
         status,
         lastSeen: new Date(Date.now() - Math.floor(Math.random()*12)*36e5).toISOString(),
         pools,
-        // Unit alarms are no longer used for notifications; keeping empty for clarity
         alarms: [],
         serialNumber: serial(),
         softwareVersion: swver(),
@@ -443,9 +447,9 @@ const Data = {
         U.pools.flatMap(P =>
           (P.alarms||[]).map(A => ({
             ...A,
-            poolId:P.id, poolName:P.name,
+            locationId:L.id, locationName:L.name, customer:L.customer,
             unitId:U.id, unitName:U.name,
-            locationName:L.name, customer:L.customer
+            poolId:P.id, poolName:P.name
           }))
         )
       )
@@ -477,12 +481,21 @@ const Router = {
     const render = () => {
       const path = location.hash.replace('#','') || '/dashboard';
       const [base, param] = path.split('/').filter(Boolean);
+
+      // Map detail pages to their parent nav item
+      const navKey = base==='unit' ? 'units'
+                    : base==='pool' ? 'pools'
+                    : base==='location' ? 'locations'
+                    : base;
+
       document.querySelectorAll('.tabs a, .side-links a').forEach(a=>{
-        a.classList.toggle('active', a.getAttribute('href') === `#/${base}`);
+        a.classList.toggle('active', a.getAttribute('href') === `#/${navKey}`);
       });
+
       const el = document.getElementById('view');
       if(base==='unit' && param){ Views.unitDetail(el, decodeURIComponent(param)); return; }
       if(base==='pool' && param){ Views.poolDetail(el, decodeURIComponent(param)); return; }
+      if(base==='location' && param){ Views.locationDetail(el, decodeURIComponent(param)); return; }
       (Router.routes[`/${base}`] || Router.routes['/dashboard'])(el);
     };
     window.addEventListener('hashchange', render);
@@ -507,7 +520,6 @@ const Views = {
 
     // Notifications (pool level)
     const poolsWithNotifs = new Set(poolAlarms.map(a=>a.poolId)).size;
-    const riskyLocations = new Set(poolAlarms.map(a=>a.locationName)).size;
     const crit = poolAlarms.filter(a=>a.severity==='critical').length;
     const warn = poolAlarms.filter(a=>a.severity==='warning').length;
 
@@ -589,7 +601,7 @@ const Views = {
         const pools = units.reduce((n,u)=>n+u.pools.length,0);
         const s = countByStatus(units);
         return `
-          <tr>
+          <tr class="risk-row" data-location="${L.id}" tabindex="0">
             <td><strong>${L.name}</strong><div class="muted">${L.address}</div></td>
             <td>${L.customer}</td>
             <td>${units.length}</td>
@@ -599,9 +611,6 @@ const Views = {
               <span class="chip warn">Alert ${s.alert}</span>
               <span class="chip offline">Offline ${s.offline}</span>
             </td>
-            <td class="row-actions">
-              <button class="btn secondary" onclick="Views._filterUnitsByLocation('${L.id}')">Show units</button>
-            </td>
           </tr>
         `;
       }).join('');
@@ -609,15 +618,16 @@ const Views = {
     el.innerHTML = `
       <div class="toolbar">
         <h1 data-accent>Locations</h1>
-        <div class="help">Overview of all locations, with number of units and pools.</div>
+        <div class="help">Click a row to open the location detail.</div>
       </div>
       <div class="table-scroll">
         <table class="list">
-          <thead><tr><th>Location</th><th>Customer</th><th>Units</th><th>Pools</th><th>Status</th><th></th></tr></thead>
+          <thead><tr><th>Location</th><th>Customer</th><th>Units</th><th>Pools</th><th>Status</th></tr></thead>
           <tbody>${rows}</tbody>
         </table>
       </div>
     `;
+    Views._bindRowClicks();
   },
 
   /* ----- UNITS OVERVIEW ----- */
@@ -628,7 +638,6 @@ const Views = {
       .filter(u => (`${u.id} ${u.name} ${u.locationName} ${u.customer}`).toLowerCase().includes(q));
 
     const rows = units.map(u => {
-      // Aggregate pool-level notifications for the unit
       const allPoolNotifs = (u.pools||[]).flatMap(p => p.alarms||[]);
       const crit = allPoolNotifs.filter(a=>a.severity==='critical').length;
       const warn = allPoolNotifs.filter(a=>a.severity==='warning').length;
@@ -749,12 +758,11 @@ const Views = {
       `;
     }).join('');
 
-    // Collect all pool notifications for this unit
     const unitPoolAlarms = (U.pools||[]).flatMap(p => (p.alarms||[]).map(a => ({
       ...a,
       poolId:p.id, poolName:p.name,
       unitId:U.id, unitName:U.name,
-      locationName:L.name, customer:L.customer
+      locationId:L.id, locationName:L.name, customer:L.customer
     }))).sort((a,b)=> new Date(b.ts)-new Date(a.ts));
 
     el.innerHTML = `
@@ -808,6 +816,80 @@ const Views = {
     Views._bindRowClicks();
   },
 
+  /* ----- LOCATION DETAIL (NEW) ----- */
+  locationDetail(el, locId){
+    const L = db.locations.find(x => x.id === locId);
+    if(!L){ el.innerHTML = '<p>Location not found.</p>'; return; }
+
+    // Units on this location
+    const units = L.units.map(u => {
+      const allPoolNotifs = (u.pools||[]).flatMap(p => p.alarms||[]);
+      const crit = allPoolNotifs.filter(a=>a.severity==='critical').length;
+      const warn = allPoolNotifs.filter(a=>a.severity==='warning').length;
+      return `
+        <tr class="risk-row" data-unit="${u.id}">
+          <td><strong>${u.id}</strong><div class="muted">${u.name}</div></td>
+          <td>${fmt.statusChip(u.status)}</td>
+          <td>${u.pools.length}</td>
+          <td>
+            ${crit ? `<span class="chip danger">${Icons.bell} ${crit}</span>` : ''}
+            ${warn ? `<span class="chip warn">${Icons.bell} ${warn}</span>` : ''}
+            ${(!crit && !warn) ? '<span class="muted">0</span>' : ''}
+          </td>
+          <td>${fmt.rel(u.lastSeen)}</td>
+        </tr>
+      `;
+    }).join('');
+
+    // Notifications across all pools on this location
+    const locPoolAlarms = Data.allPoolAlarms()
+      .filter(a => a.locationId === L.id)
+      .sort((a,b)=> new Date(b.ts)-new Date(a.ts));
+
+    el.innerHTML = `
+      <div class="toolbar">
+        <button class="btn ghost" onclick="history.back()">&larr; Back</button>
+        <h1 data-accent>${L.name} <span class="muted">(${L.customer})</span></h1>
+        <div style="flex:1"></div>
+      </div>
+
+      <div class="detail">
+        <div class="photo"><img alt="Photo of the location" src="https://picsum.photos/seed/${encodeURIComponent(L.id)}/900/600" /></div>
+        <div class="card">
+          <div class="title">Location details</div>
+          <div class="dl" style="margin-top:10px">
+            <dt>Street</dt><dd>${L.street}</dd>
+            <dt>Nr°</dt><dd>${L.nr}</dd>
+            <dt>Extra info</dt><dd>${L.extraInfo || '-'}</dd>
+            <dt>Postal code</dt><dd>${L.postalCode}</dd>
+            <dt>Country</dt><dd>${L.country}</dd>
+            <dt>Latitude</dt><dd>${L.lat}</dd>
+            <dt>Longitude</dt><dd>${L.lng}</dd>
+          </div>
+        </div>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <div class="title">Units on this location</div>
+          <div class="table-scroll" style="margin-top:10px">
+            <table class="list">
+              <thead><tr><th>Unit</th><th>Status</th><th>Pools</th><th>Notifications</th><th>Last seen</th></tr></thead>
+              <tbody>${units}</tbody>
+            </table>
+          </div>
+          <div class="help" style="margin-top:8px">Click a unit row to open the unit detail.</div>
+        </div>
+
+        <div class="card">
+          <div class="title">Notifications (all pools on this location)</div>
+          ${locPoolAlarms.length ? Views.tableAlarms(locPoolAlarms) : '<p class="muted">No notifications on this location.</p>'}
+        </div>
+      </div>
+    `;
+    Views._bindRowClicks();
+  },
+
   /* ----- POOL DETAIL ----- */
   poolDetail(el, poolId){
     const P = Data.allPools().find(p => p.id === poolId);
@@ -818,7 +900,7 @@ const Views = {
       ...a,
       poolId:P.id, poolName:P.name,
       unitId:U.id, unitName:U.name,
-      locationName:P.locationName, customer:P.customer
+      locationId:P.locationId, locationName:P.locationName, customer:P.customer
     })).sort((a,b)=> new Date(b.ts)-new Date(a.ts));
 
     el.innerHTML = `
@@ -879,6 +961,7 @@ const Views = {
       const tiles = paramTiles(p.metrics);
       const crit = (p.alarms||[]).filter(a=>a.severity==='critical').length;
       const warn = (p.alarms||[]).filter(a=>a.severity==='warning').length;
+      const unit = Data.allUnits().find(u=>u.id===p.unitId);
       return `
         <tr class="risk-row" data-pool="${p.id}">
           <td><strong>${p.locationName}</strong></td>
@@ -890,7 +973,7 @@ const Views = {
             ${(!crit && !warn) ? '<span class="muted">0</span>' : ''}
           </td>
           <td><div class="param-badges">${tiles.length ? tiles.join('') : '<span class="muted">OK</span>'}</div></td>
-          ${showOfflineCol ? `<td>${p?.unitStatus==='offline' ? (Data.allUnits().find(u=>u.id===p.unitId)?.lastSeen ? fmt.date(Data.allUnits().find(u=>u.id===p.unitId).lastSeen) : '-') : '-'}</td>` : ''}
+          ${showOfflineCol ? `<td>${p?.unitStatus==='offline' ? (unit?.lastSeen ? fmt.date(unit.lastSeen) : '-') : '-'}</td>` : ''}
           <td>${fmt.rel(p.lastView)}</td>
         </tr>
       `;
@@ -975,11 +1058,13 @@ const Views = {
       r.addEventListener('click', ()=>{
         if(r.dataset.pool) Router.go(`#/pool/${encodeURIComponent(r.dataset.pool)}`);
         else if(r.dataset.unit) Router.go(`#/unit/${encodeURIComponent(r.dataset.unit)}`);
+        else if(r.dataset.location) Router.go(`#/location/${encodeURIComponent(r.dataset.location)}`);
       });
       r.addEventListener('keydown', e=>{
         if(e.key==='Enter'){
           if(r.dataset.pool) Router.go(`#/pool/${encodeURIComponent(r.dataset.pool)}`);
           else if(r.dataset.unit) Router.go(`#/unit/${encodeURIComponent(r.dataset.unit)}`);
+          else if(r.dataset.location) Router.go(`#/location/${encodeURIComponent(r.dataset.location)}`);
         }
       });
     });
@@ -995,6 +1080,7 @@ document.getElementById('globalSearch').addEventListener('input', ()=>{
   else if(base==='units') Views.units(el);
   else if(base==='pools') Views.pools(el);
   else if(base==='alarms') Views.alarms(el);
+  else if(base==='location') Views.locations(el);
   else Views.dashboard(el);
 });
 
@@ -1045,7 +1131,8 @@ Router.on('/locations', Views.locations);
 Router.on('/units', Views.units);
 Router.on('/pools', Views.pools);
 Router.on('/alarms', Views.alarms);
-Router.on('/pool', Views.poolDetail); /* base handler; specific via Router.start */
+Router.on('/pool', Views.poolDetail);
+Router.on('/location', Views.locationDetail);
 Router.start();
 </script>
 </body>
